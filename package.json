@@ -1,0 +1,24 @@
+{
+  "name": "optifine-for-fabric",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.0",
+    "ifamished-ui": "github:iFamishedX/iFamished-UI"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.42.1",
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16",
+    "wrangler": "^4.103.0"
+  }
+}
