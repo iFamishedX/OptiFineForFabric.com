@@ -1,29 +1,38 @@
 import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
+import Icon from "../components/Icon"
+import StatPill from "../components/StatPill"
 
 const highlights = [
   {
-    icon: "⚡",
+    icon: "bolt",
     title: "Performance",
-    desc: "Powered by Sodium, Lithium, and Starlight — massive FPS gains over vanilla.",
+    desc: "Powered by Sodium, Lithium, and Starlight — massive FPS gains over vanilla with no gameplay changes.",
   },
   {
-    icon: "🎨",
+    icon: "palette",
     title: "Visual Enhancements",
-    desc: "Connected textures, custom skies, zoom, and dynamic lighting out of the box.",
+    desc: "Connected textures, custom skies, zoom, and emissive rendering right out of the box.",
   },
   {
-    icon: "✨",
+    icon: "sparkles",
     title: "Shader Support",
-    desc: "Full Iris integration. Drop in any OptiFine-compatible shader pack and go.",
+    desc: "Full Iris integration. Drop in any OptiFine-compatible shader pack and switch in-game instantly.",
   },
   {
-    icon: "🧩",
+    icon: "puzzle",
     title: "Modpack Friendly",
-    desc: "Lightweight and modular — slots into almost any Fabric modpack without conflict.",
+    desc: "Lightweight and modular — every mod is independently removable with near-zero conflicts.",
   },
 ]
 
 const techTags = ["Fabric", "Sodium", "Iris", "Lithium", "Starlight", "Indium"]
+
+const stats = [
+  { value: "2–5×", label: "FPS Boost" },
+  { value: "8", label: "Included Mods" },
+  { value: "100%", label: "Free & OSS" },
+  { value: "1.21", label: "Latest MC" },
+]
 
 export default function Home() {
   usePageTitle("OptiFine for Fabric")
@@ -33,13 +42,18 @@ export default function Home() {
       {/* Hero */}
       <section className="section">
         <GlassCard variant="hero" className="hero fade-in-up">
+          <div className="hero-eyebrow">
+            <span className="hero-eyebrow-dot" />
+            Fabric Mod Collection
+          </div>
+
           <h1 className="hero-name">
             <span className="gradient-text">OptiFine for Fabric</span>
           </h1>
 
           <p className="hero-subtitle">
             The modern, Fabric-native replacement for OptiFine — faster rendering,
-            beautiful shaders, and zero compromises.
+            beautiful shaders, and zero compromises on compatibility.
           </p>
 
           <div className="project-stack" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
@@ -49,9 +63,23 @@ export default function Home() {
           </div>
 
           <div className="hero-actions">
-            <GlassButton to="/download" variant="primary">Download</GlassButton>
-            <GlassButton to="/features">Features</GlassButton>
-            <GlassButton to="/install" variant="ghost">Install Guide</GlassButton>
+            <GlassButton to="/download" variant="primary">
+              <Icon name="download" size={16} />
+              Download
+            </GlassButton>
+            <GlassButton to="/features">
+              <Icon name="sparkles" size={16} />
+              Features
+            </GlassButton>
+            <GlassButton to="/install" variant="ghost">
+              Install Guide
+            </GlassButton>
+          </div>
+
+          <div className="stat-pills">
+            {stats.map((s) => (
+              <StatPill key={s.label} value={s.value} label={s.label} />
+            ))}
           </div>
         </GlassCard>
       </section>
@@ -59,18 +87,20 @@ export default function Home() {
       {/* Overview */}
       <section className="section">
         <div className="section-header">
-          <h2>What is OptiFine for Fabric?</h2>
+          <div className="section-label">What's included</div>
+          <h2>Everything OptiFine offered — and more.</h2>
           <p>
             A curated collection of the best Fabric performance and visual mods,
-            pre-configured to work together — giving you everything OptiFine offered
-            and more.
+            pre-configured to work together seamlessly.
           </p>
         </div>
 
         <div className="overview-grid stagger">
           {highlights.map(({ icon, title, desc }) => (
             <GlassCard key={title} className="overview-card">
-              <span className="overview-icon">{icon}</span>
+              <div className="icon-badge">
+                <Icon name={icon} size={22} strokeWidth={1.75} />
+              </div>
               <h3>{title}</h3>
               <p>{desc}</p>
             </GlassCard>
@@ -81,10 +111,16 @@ export default function Home() {
       {/* CTA */}
       <div className="cta-section fade-in-up">
         <h2>Ready to get started?</h2>
-        <p>Download the latest release and follow the installation guide — you'll be up and running in minutes.</p>
+        <p>Download the latest release and follow the guide — you'll be up and running in minutes.</p>
         <div className="cta-actions">
-          <GlassButton to="/download" variant="primary">Get the Latest Release</GlassButton>
-          <GlassButton to="/install" variant="ghost">Installation Guide</GlassButton>
+          <GlassButton to="/download" variant="primary">
+            <Icon name="download" size={16} />
+            Get the Latest Release
+          </GlassButton>
+          <GlassButton to="/install" variant="ghost">
+            <Icon name="tool" size={16} />
+            Installation Guide
+          </GlassButton>
         </div>
       </div>
     </div>

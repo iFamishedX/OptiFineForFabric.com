@@ -1,64 +1,85 @@
 import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
+import Icon from "../components/Icon"
 
 const features = [
   {
-    icon: "⚡",
+    icon: "bolt",
     title: "Sodium Rendering Engine",
     desc: "Replaces the vanilla chunk rendering pipeline with a highly optimised modern implementation. Expect 2–5× FPS improvements on most hardware.",
   },
   {
-    icon: "🔋",
+    icon: "battery",
     title: "Lithium Game Logic",
     desc: "Rewrites physics, mob AI, chunk scheduling, and more — speeding up server-side tick rates without changing gameplay.",
   },
   {
-    icon: "⭐",
+    icon: "star",
     title: "Starlight Lighting",
     desc: "Complete rewrite of Minecraft's lighting engine. Eliminates light-update lag and drastically speeds up chunk loading.",
   },
   {
-    icon: "✨",
+    icon: "sparkles",
     title: "Iris Shader Support",
     desc: "Full support for OptiFine shader packs via Iris. Switch shaders in-game without restarting — even with Sodium running.",
   },
   {
-    icon: "🎨",
+    icon: "palette",
     title: "Connected Textures",
     desc: "Continuity brings connected textures and emissive rendering. Glass panes connect, leaves blend, and custom resource packs shine.",
   },
   {
-    icon: "🔭",
-    title: "Zoom",
-    desc: "Smooth, configurable zoom via Zoomify — bound to a key, adjustable scroll sensitivity, and no clunky FOV snapping.",
+    icon: "zoom",
+    title: "Smooth Zoom",
+    desc: "Configurable zoom via Zoomify — bound to a key, with adjustable scroll sensitivity and no clunky FOV snapping.",
   },
   {
-    icon: "💡",
+    icon: "lightbulb",
     title: "Dynamic Lighting",
-    desc: "Held torches and glowing items light up the world around you in real time — no shader required.",
+    desc: "Held torches and glowing items light up the world around you in real time — no shader pack required.",
   },
   {
-    icon: "🧩",
+    icon: "puzzle",
     title: "Modpack Compatible",
-    desc: "Every mod is independently removable. Use what you need, skip what you don't. Almost zero hard conflicts with common Fabric mods.",
+    desc: "Every mod is independently removable. Use what you need, skip what you don't — almost zero hard conflicts.",
   },
 ]
 
-const vanillaLimits = [
-  "Software renderer, no hardware optimisations",
-  "Slow lighting engine, heavy chunk-load lag",
-  "No shader support",
-  "No connected textures",
-  "No zoom",
-  "No dynamic lighting",
-]
-
-const fabricAdvantages = [
-  "Hardware-accelerated rendering via Sodium",
-  "Rebuilt lighting engine — near-instant chunk loads",
-  "Iris shader support — compatible with OptiFine packs",
-  "Connected textures + emissive rendering via Continuity",
-  "Configurable zoom with smooth interpolation",
-  "Real-time dynamic lighting for held items",
+const comparison = [
+  {
+    label: "Hardware-accelerated rendering",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Rebuilt lighting engine",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Shader pack support",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Connected textures",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Configurable zoom",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Dynamic lighting for held items",
+    vanilla: false,
+    fabric: true,
+  },
+  {
+    label: "Works with Fabric mods",
+    vanilla: true,
+    fabric: true,
+  },
 ]
 
 export default function Features() {
@@ -76,7 +97,9 @@ export default function Features() {
         <div className="features-grid stagger">
           {features.map(({ icon, title, desc }) => (
             <GlassCard key={title} className="feature-card">
-              <span className="feature-icon">{icon}</span>
+              <div className="icon-badge">
+                <Icon name={icon} size={22} strokeWidth={1.75} />
+              </div>
               <h3>{title}</h3>
               <p>{desc}</p>
             </GlassCard>
@@ -87,27 +110,46 @@ export default function Features() {
       {/* Comparison */}
       <section className="section">
         <div className="section-header">
+          <div className="section-label">Side by side</div>
           <h2>Vanilla vs OptiFine for Fabric</h2>
-          <p>A side-by-side look at what changes when you switch.</p>
+          <p>A direct comparison of what changes when you make the switch.</p>
         </div>
 
         <div className="compare-grid stagger">
           <GlassCard className="compare-card">
-            <h3>Vanilla Minecraft</h3>
-            <ul className="project-list">
-              {vanillaLimits.map((item) => (
-                <li key={item}>{item}</li>
+            <div className="compare-card-header">
+              <div className="icon-badge" style={{ width: 36, height: 36 }}>
+                <Icon name="xCircle" size={18} strokeWidth={1.75} />
+              </div>
+              <h3>Vanilla Minecraft</h3>
+            </div>
+            <ul className="compare-list">
+              {comparison.map(({ label, vanilla }) => (
+                <li key={label}>
+                  <span className={`compare-list-icon compare-list-icon--${vanilla ? "yes" : "no"}`}>
+                    <Icon name={vanilla ? "check" : "x"} size={16} strokeWidth={2.5} />
+                  </span>
+                  {label}
+                </li>
               ))}
             </ul>
           </GlassCard>
 
           <GlassCard className="compare-card">
-            <h3>
-              <span className="gradient-text">OptiFine for Fabric</span>
-            </h3>
-            <ul className="project-list">
-              {fabricAdvantages.map((item) => (
-                <li key={item}>{item}</li>
+            <div className="compare-card-header">
+              <div className="icon-badge" style={{ width: 36, height: 36 }}>
+                <Icon name="checkCircle" size={18} strokeWidth={1.75} />
+              </div>
+              <h3><span className="gradient-text">OptiFine for Fabric</span></h3>
+            </div>
+            <ul className="compare-list">
+              {comparison.map(({ label, fabric }) => (
+                <li key={label}>
+                  <span className={`compare-list-icon compare-list-icon--${fabric ? "yes" : "no"}`}>
+                    <Icon name={fabric ? "check" : "x"} size={16} strokeWidth={2.5} />
+                  </span>
+                  {label}
+                </li>
               ))}
             </ul>
           </GlassCard>
@@ -116,9 +158,12 @@ export default function Features() {
 
       <div className="cta-section fade-in-up">
         <h2>Convinced?</h2>
-        <p>Download the latest release and see the difference for yourself.</p>
+        <p>Download the latest release and see the difference yourself.</p>
         <div className="cta-actions">
-          <GlassButton to="/download" variant="primary">Download</GlassButton>
+          <GlassButton to="/download" variant="primary">
+            <Icon name="download" size={16} />
+            Download
+          </GlassButton>
           <GlassButton to="/faq" variant="ghost">FAQ</GlassButton>
         </div>
       </div>

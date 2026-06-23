@@ -1,4 +1,6 @@
-import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
+import { GlassButton, usePageTitle } from "ifamished-ui"
+import Icon from "../components/Icon"
+import FaqAccordion from "../components/FaqAccordion"
 
 const faqs = [
   {
@@ -27,7 +29,7 @@ const faqs = [
   },
   {
     q: "How much faster is it compared to vanilla?",
-    a: "Results vary by hardware, but most players see 2–5× higher FPS compared to vanilla Minecraft at equivalent settings. Sodium targets modern GPU APIs, which especially benefits lower-end and integrated graphics hardware.",
+    a: "Results vary by hardware, but most players see 2–5× higher FPS at equivalent settings. Sodium targets modern GPU APIs, which especially benefits lower-end and integrated graphics hardware.",
   },
   {
     q: "Where do I report bugs?",
@@ -48,10 +50,7 @@ export default function FAQ() {
       <section className="section">
         <div className="faq-list stagger">
           {faqs.map(({ q, a }) => (
-            <GlassCard key={q} className="faq-item" as="details">
-              <summary>{q}</summary>
-              <p className="faq-answer">{a}</p>
-            </GlassCard>
+            <FaqAccordion key={q} q={q} a={a} />
           ))}
         </div>
       </section>
@@ -61,9 +60,11 @@ export default function FAQ() {
         <p>Join the Discord or browse the GitHub repository for more detailed information.</p>
         <div className="cta-actions">
           <GlassButton href="https://discord.com/users/iFamished" variant="primary">
+            <Icon name="discord" size={16} />
             Discord
           </GlassButton>
           <GlassButton href="https://github.com/iFamishedX/optifine-for-fabric" variant="ghost">
+            <Icon name="github" size={16} />
             GitHub
           </GlassButton>
         </div>

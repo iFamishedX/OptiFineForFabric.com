@@ -1,55 +1,78 @@
 import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
+import Icon from "../components/Icon"
 
 const steps = [
   {
+    icon: "tool",
     title: "Install Fabric Loader",
-    desc: (
+    body: (
       <>
         Download and run the{" "}
         <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener noreferrer">
           Fabric Installer
         </a>
-        . Select your Minecraft version and click <strong>Install</strong>. The installer will
-        create a new Fabric profile in your launcher automatically.
+        . Select your Minecraft version and click <strong>Install</strong>. The installer
+        creates a new Fabric profile in your launcher automatically.
       </>
     ),
     tags: ["fabricmc.net/use/installer"],
   },
   {
+    icon: "download",
     title: "Download OptiFine for Fabric",
-    desc: (
+    body: (
       <>
-        Go to the <strong>Download</strong> page and grab the JAR for your Minecraft version.
-        Make sure the loader version matches what you installed in step 1.
+        Head to the <strong>Download</strong> page and grab the{" "}
+        <span className="code-inline">.jar</span> for your Minecraft version. Confirm
+        the required loader version matches what you installed in step 1.
       </>
     ),
     tags: ["Modrinth"],
   },
   {
+    icon: "folder",
     title: "Place the JAR in your mods folder",
-    desc: (
+    body: (
       <>
-        Open your Minecraft directory and place the downloaded <code>.jar</code> inside the{" "}
-        <code>mods/</code> folder. On Windows this is{" "}
-        <code>%AppData%\.minecraft\mods</code>. On macOS it is{" "}
-        <code>~/Library/Application Support/minecraft/mods</code>.
+        Open your Minecraft directory and drop the{" "}
+        <span className="code-inline">.jar</span> inside the{" "}
+        <span className="code-inline">mods/</span> folder.{" "}
+        Windows: <span className="code-inline">%AppData%\.minecraft\mods</span>{" "}
+        — macOS:{" "}
+        <span className="code-inline">~/Library/Application Support/minecraft/mods</span>
       </>
     ),
-    tags: ["%AppData%\\.minecraft\\mods"],
+    tags: [],
   },
   {
+    icon: "play",
     title: "Launch the Fabric profile",
-    desc: "Open your launcher, select the Fabric profile created in step 1, and hit Play. OptiFine for Fabric loads automatically with Minecraft.",
+    body: "Open your launcher, select the Fabric profile created in step 1, and hit Play. OptiFine for Fabric loads automatically alongside Minecraft.",
     tags: [],
   },
 ]
 
 const troubleshooting = [
-  "Game won't launch — check that the Fabric Loader version matches the mod's required version.",
-  "Shaders not working — confirm Iris is present in the mods folder as a separate dependency.",
-  "Connected textures missing — verify your resource pack is OptiFine-format compatible.",
-  "Low FPS after installing — try removing other rendering mods that may conflict with Sodium.",
-  "Crash on startup — check the crash log in .minecraft/crash-reports for the failing mod.",
+  {
+    heading: "Game won't launch",
+    detail: "Verify the Fabric Loader version in your launcher matches the version required by the mod.",
+  },
+  {
+    heading: "Shaders not working",
+    detail: "Confirm Iris is present as a separate .jar in your mods folder — it is not bundled.",
+  },
+  {
+    heading: "Connected textures missing",
+    detail: "Your resource pack must use OptiFine-format CTM files. Not all packs support this.",
+  },
+  {
+    heading: "Lower FPS after installing",
+    detail: "Remove any other rendering mods (OptiFine .jar, Canvas, etc.) that may conflict with Sodium.",
+  },
+  {
+    heading: "Crash on startup",
+    detail: "Check .minecraft/crash-reports/ and look for the failing mod in the stack trace.",
+  },
 ]
 
 export default function Install() {
@@ -62,15 +85,15 @@ export default function Install() {
         <p>Get up and running in four steps. No prior modding experience required.</p>
       </div>
 
-      {/* Steps */}
+      {/* Timeline steps */}
       <section className="section">
-        <div className="install-steps-list fade-in-up">
-          {steps.map(({ title, desc, tags }, i) => (
+        <div className="install-timeline stagger">
+          {steps.map(({ icon, title, body, tags }, i) => (
             <GlassCard key={title} className="install-step">
               <div className="install-step-number">{i + 1}</div>
               <div className="install-step-body">
                 <h3>{title}</h3>
-                <p>{desc}</p>
+                <p>{body}</p>
                 {tags.length > 0 && (
                   <div className="project-stack" style={{ marginTop: "var(--space-1)" }}>
                     {tags.map((tag) => (
@@ -87,14 +110,22 @@ export default function Install() {
       {/* Troubleshooting */}
       <section className="section">
         <div className="section-header">
+          <div className="section-label">Common issues</div>
           <h2>Troubleshooting</h2>
-          <p>Common issues and how to fix them.</p>
+          <p>Quick fixes for the most frequent problems.</p>
         </div>
 
         <GlassCard className="fade-in-up">
-          <ul className="project-list">
-            {troubleshooting.map((tip) => (
-              <li key={tip}>{tip}</li>
+          <ul className="trouble-list">
+            {troubleshooting.map(({ heading, detail }) => (
+              <li key={heading} className="trouble-item">
+                <span className="trouble-icon">
+                  <Icon name="warning" size={18} strokeWidth={1.75} />
+                </span>
+                <p>
+                  <strong>{heading}</strong> — {detail}
+                </p>
+              </li>
             ))}
           </ul>
         </GlassCard>
@@ -102,9 +133,10 @@ export default function Install() {
 
       <div className="cta-section fade-in-up">
         <h2>Still stuck?</h2>
-        <p>Ask in the Discord server or check the FAQ for more answers.</p>
+        <p>Ask in the Discord server or browse the FAQ for more answers.</p>
         <div className="cta-actions">
           <GlassButton href="https://discord.com/users/iFamished" variant="primary">
+            <Icon name="discord" size={16} />
             Join Discord
           </GlassButton>
           <GlassButton to="/faq" variant="ghost">FAQ</GlassButton>
