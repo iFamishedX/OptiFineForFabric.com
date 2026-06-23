@@ -1,5 +1,4 @@
-import Navbar from "ifamished-ui/Navbar"
-import Footer from "ifamished-ui/Footer"
+import { Navbar, Footer } from "ifamished-ui"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
