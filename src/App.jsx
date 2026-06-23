@@ -24,7 +24,14 @@ export default function App() {
       />
 
       <div className="container">
-        {/* routes */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/download" element={<Download />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/install" element={<Install />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
 
       <Footer
