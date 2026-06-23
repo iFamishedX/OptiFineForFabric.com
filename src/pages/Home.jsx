@@ -1,6 +1,4 @@
-import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
-import Icon from "../components/Icon"
-import StatPill from "../components/StatPill"
+import { GlassCard, GlassButton, usePageTitle, Icon, StatPill } from "ifamished-ui"
 
 const highlights = [
   {
@@ -72,6 +70,7 @@ export default function Home() {
               Features
             </GlassButton>
             <GlassButton to="/install" variant="ghost">
+              <Icon name="tool" size={16} />
               Install Guide
             </GlassButton>
           </div>

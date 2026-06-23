@@ -1,6 +1,4 @@
-import { GlassButton, usePageTitle } from "ifamished-ui"
-import Icon from "../components/Icon"
-import FaqAccordion from "../components/FaqAccordion"
+import { GlassButton, usePageTitle, Icon, FaqAccordion } from "ifamished-ui"
 
 const faqs = [
   {

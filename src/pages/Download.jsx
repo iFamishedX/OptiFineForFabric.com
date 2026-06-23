@@ -1,5 +1,4 @@
-import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
-import Icon from "../components/Icon"
+import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const versions = [
   {

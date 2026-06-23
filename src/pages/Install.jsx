@@ -1,5 +1,4 @@
-import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
-import Icon from "../components/Icon"
+import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const steps = [
   {
@@ -90,10 +89,14 @@ export default function Install() {
         <div className="install-timeline stagger">
           {steps.map(({ icon, title, body, tags }, i) => (
             <GlassCard key={title} className="install-step">
-              <div className="install-step-number">{i + 1}</div>
+              <div className="install-step-number">
+                <Icon name={icon} size={18} strokeWidth={1.75} />
+              </div>
+
               <div className="install-step-body">
                 <h3>{title}</h3>
                 <p>{body}</p>
+
                 {tags.length > 0 && (
                   <div className="project-stack" style={{ marginTop: "var(--space-1)" }}>
                     {tags.map((tag) => (

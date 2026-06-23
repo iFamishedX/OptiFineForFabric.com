@@ -1,5 +1,4 @@
-import { GlassCard, GlassButton, usePageTitle } from "ifamished-ui"
-import Icon from "../components/Icon"
+import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const features = [
   {
@@ -45,41 +44,13 @@ const features = [
 ]
 
 const comparison = [
-  {
-    label: "Hardware-accelerated rendering",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Rebuilt lighting engine",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Shader pack support",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Connected textures",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Configurable zoom",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Dynamic lighting for held items",
-    vanilla: false,
-    fabric: true,
-  },
-  {
-    label: "Works with Fabric mods",
-    vanilla: true,
-    fabric: true,
-  },
+  { label: "Hardware-accelerated rendering", vanilla: false, fabric: true },
+  { label: "Rebuilt lighting engine", vanilla: false, fabric: true },
+  { label: "Shader pack support", vanilla: false, fabric: true },
+  { label: "Connected textures", vanilla: false, fabric: true },
+  { label: "Configurable zoom", vanilla: false, fabric: true },
+  { label: "Dynamic lighting for held items", vanilla: false, fabric: true },
+  { label: "Works with Fabric mods", vanilla: true, fabric: true },
 ]
 
 export default function Features() {
