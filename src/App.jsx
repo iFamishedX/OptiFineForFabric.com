@@ -1,4 +1,11 @@
+import { Routes, Route, Navigate } from "react-router-dom"
 import { Navbar, Footer } from "ifamished-ui"
+
+import Home from "./pages/Home"
+import Download from "./pages/Download"
+import Features from "./pages/Features"
+import Install from "./pages/Install"
+import FAQ from "./pages/FAQ"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
