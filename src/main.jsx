@@ -7,8 +7,9 @@ import "ifamished-ui/styles/globals.css"
 import "ifamished-ui/styles/themes/aqua.css"
 import "ifamished-ui/styles/components.css"
 
-// Site-specific background styles
+// Site-specific styles
 import "./styles/background.css"
+import "./styles/pages.css"
 
 import App from "./App.jsx"
 
