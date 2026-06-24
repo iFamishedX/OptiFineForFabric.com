@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-import { GlassCard, GlassButton, usePageTitle, Icon, Dropdown } from "ifamished-ui"
-import Searchbar from "ifamished-ui/components/Searchbar"
+import { GlassCard, GlassButton, usePageTitle, Icon, Dropdown, Searchbar } from "ifamished-ui"
 
 export default function Download() {
   usePageTitle("OptiFine for Fabric | Download")
