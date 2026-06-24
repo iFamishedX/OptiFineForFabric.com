@@ -57,7 +57,7 @@ export default function Download() {
 
       {/* Filters */}
       <section className="section fade-in-up">
-        <div className="tech-tag-list" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
+        <div className="download-filters" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
           <Dropdown
             label="Release Type"
             value={releaseType}
