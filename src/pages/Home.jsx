@@ -54,7 +54,7 @@ export default function Home() {
             beautiful shaders, and zero compromises on compatibility.
           </p>
 
-          <div className="project-stack" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
+          <div className="tech-tag-list" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
             {techTags.map((tag) => (
               <span key={tag} className="tech-tag">{tag}</span>
             ))}
