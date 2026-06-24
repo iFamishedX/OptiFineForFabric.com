@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom"
 // Shared UI package styles
 import "ifamished-ui/styles/index.css"
 import "ifamished-ui/styles/themes/aqua.css"
+import "ifamished-ui/styles/components/subcomponents/site-specific/optifineforfabric.css"
 
 // Site-specific styles
 import "./styles/background.css"
