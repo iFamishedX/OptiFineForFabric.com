@@ -92,34 +92,50 @@ export default function Download() {
 
       {/* Versions */}
       <section className="section">
-        <div className="download-grid stagger">
-          {filtered.map(v => (
-            <GlassCard key={v.id} className="download-card">
-              <div className="download-card-top">
-                <div className="icon-badge">
-                  <Icon name="cube" size={22} strokeWidth={1.75} />
+        {filtered.length === 0 ? (
+          <div className="no-results fade-in-up">
+            <p>No versions match your filters.</p>
+            <GlassButton
+              variant="ghost"
+              onClick={() => {
+                setReleaseType("All")
+                setMcVersion("All")
+                setSearch("")
+              }}
+            >
+              Reset Filters
+            </GlassButton>
+          </div>
+        ) : (
+          <div className="download-grid stagger">
+            {filtered.map(v => (
+              <GlassCard key={v.id} className="download-card">
+                <div className="download-card-top">
+                  <div className="icon-badge">
+                    <Icon name="cube" size={22} strokeWidth={1.75} />
+                  </div>
+
+                  <div className={`version-badge version-badge--${v.version_type}`}>
+                    <span className="version-badge-dot" />
+                    {v.version_type}
+                  </div>
+
+                  <span className="download-mc-label">Minecraft</span>
+                  <span className="download-version">{v.version_number}</span>
+
+                  <p className="download-desc">{v.name}</p>
                 </div>
 
-                <div className={`version-badge version-badge--${v.version_type}`}>
-                  <span className="version-badge-dot" />
-                  {v.version_type}
+                <div className="download-actions">
+                  <GlassButton href={v.files[0]?.url} variant="primary" block>
+                    <Icon name="download" size={15} />
+                    Download on Modrinth
+                  </GlassButton>
                 </div>
-
-                <span className="download-mc-label">Minecraft</span>
-                <span className="download-version">{v.version_number}</span>
-
-                <p className="download-desc">{v.name}</p>
-              </div>
-
-              <div className="download-actions">
-                <GlassButton href={v.files[0]?.url} variant="primary" block>
-                  <Icon name="download" size={15} />
-                  Download on Modrinth
-                </GlassButton>
-              </div>
-            </GlassCard>
-          ))}
-        </div>
+              </GlassCard>
+            ))}
+          </div>
+        )}
       </section>
 
       <div className="cta-section fade-in-up">
