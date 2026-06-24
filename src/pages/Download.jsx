@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
+import { GlassCard, GlassButton, usePageTitle, Icon, Dropdown } from "ifamished-ui"
 
 export default function Download() {
   usePageTitle("OptiFine for Fabric | Download")
@@ -7,16 +7,11 @@ export default function Download() {
   const [versions, setVersions] = useState([])
   const [filtered, setFiltered] = useState([])
 
-  // Filters
-  const [releaseType, setReleaseType] = useState("all")
-  const [mcVersion, setMcVersion] = useState("all")
-  const [loader, setLoader] = useState("all")
+  const [releaseType, setReleaseType] = useState("All")
+  const [mcVersion, setMcVersion] = useState("All")
 
-  // Unique filter values
   const [mcVersions, setMcVersions] = useState([])
-  const [loaders, setLoaders] = useState([])
 
-  // Fetch Modrinth versions
   useEffect(() => {
     async function load() {
       const res = await fetch(
@@ -24,7 +19,6 @@ export default function Download() {
       )
       const data = await res.json()
 
-      // Sort newest → oldest
       data.sort(
         (a, b) => new Date(b.date_published) - new Date(a.date_published)
       )
@@ -32,103 +26,51 @@ export default function Download() {
       setVersions(data)
       setFiltered(data)
 
-      // Extract unique MC versions
       const mc = new Set()
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
-      setMcVersions(["all", ...Array.from(mc).sort().reverse()])
-
-      // Extract unique loaders
-      const ld = new Set()
-      data.forEach(v => v.loaders.forEach(l => ld.add(l)))
-      setLoaders(["all", ...Array.from(ld)])
+      setMcVersions(["All", ...Array.from(mc).sort().reverse()])
     }
 
     load()
   }, [])
 
-  // Apply filters
   useEffect(() => {
     let out = versions
 
-    if (releaseType !== "all") {
-      out = out.filter(v => v.version_type === releaseType)
+    if (releaseType !== "All") {
+      out = out.filter(v => v.version_type === releaseType.toLowerCase())
     }
 
-    if (mcVersion !== "all") {
+    if (mcVersion !== "All") {
       out = out.filter(v => v.game_versions.includes(mcVersion))
     }
 
-    if (loader !== "all") {
-      out = out.filter(v => v.loaders.includes(loader))
-    }
-
     setFiltered(out)
-  }, [releaseType, mcVersion, loader, versions])
+  }, [releaseType, mcVersion, versions])
 
   return (
     <div className="page">
       <div className="page-header fade-in-up">
         <h1>Download</h1>
-        <p>
-          Choose the release that matches your Minecraft version. All releases
-          are fetched live from Modrinth.
-        </p>
+        <p>Choose the release that matches your Minecraft version.</p>
       </div>
 
       {/* Filters */}
       <section className="section fade-in-up">
-        <div className="tech-tag-list" style={{ justifyContent: "center", marginBottom: "var(--space-3)" }}>
-          {/* Release type */}
-          <span
-            className={`tech-tag ${releaseType === "all" ? "active" : ""}`}
-            onClick={() => setReleaseType("all")}
-          >
-            All
-          </span>
-          <span
-            className={`tech-tag ${releaseType === "release" ? "active" : ""}`}
-            onClick={() => setReleaseType("release")}
-          >
-            Release
-          </span>
-          <span
-            className={`tech-tag ${releaseType === "beta" ? "active" : ""}`}
-            onClick={() => setReleaseType("beta")}
-          >
-            Beta
-          </span>
-          <span
-            className={`tech-tag ${releaseType === "alpha" ? "active" : ""}`}
-            onClick={() => setReleaseType("alpha")}
-          >
-            Alpha
-          </span>
-        </div>
-
-        {/* MC Version Filter */}
-        <div className="tech-tag-list" style={{ justifyContent: "center", marginBottom: "var(--space-3)" }}>
-          {mcVersions.map(v => (
-            <span
-              key={v}
-              className={`tech-tag ${mcVersion === v ? "active" : ""}`}
-              onClick={() => setMcVersion(v)}
-            >
-              {v === "all" ? "All Versions" : v}
-            </span>
-          ))}
-        </div>
-
-        {/* Loader Filter */}
         <div className="tech-tag-list" style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}>
-          {loaders.map(l => (
-            <span
-              key={l}
-              className={`tech-tag ${loader === l ? "active" : ""}`}
-              onClick={() => setLoader(l)}
-            >
-              {l === "all" ? "All Loaders" : l}
-            </span>
-          ))}
+          <Dropdown
+            label="Release Type"
+            value={releaseType}
+            onChange={setReleaseType}
+            options={["All", "release", "beta", "alpha"]}
+          />
+
+          <Dropdown
+            label="Minecraft Version"
+            value={mcVersion}
+            onChange={setMcVersion}
+            options={mcVersions}
+          />
         </div>
       </section>
 
@@ -151,24 +93,12 @@ export default function Download() {
                 <span className="download-version">{v.version_number}</span>
 
                 <p className="download-desc">{v.name}</p>
-
-                <div className="tech-tag-list" style={{ justifyContent: "center" }}>
-                  {v.loaders.map(loader => (
-                    <span key={loader} className="tech-tag">
-                      {loader}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               <div className="download-actions">
                 <GlassButton href={v.files[0]?.url} variant="primary" block>
                   <Icon name="download" size={15} />
                   Download on Modrinth
-                </GlassButton>
-                <GlassButton to="/install" variant="ghost" block>
-                  <Icon name="tool" size={15} />
-                  Installation Guide
                 </GlassButton>
               </div>
             </GlassCard>
