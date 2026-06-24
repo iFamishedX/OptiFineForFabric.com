@@ -127,9 +127,13 @@ export default function Download() {
                 </div>
 
                 <div className="download-actions">
-                  <GlassButton href={v.files[0]?.url} variant="primary" block>
+                  <GlassButton
+                    href={`https://modrinth.com/modpack/optifine-for-fabric/version/${v.version_number}`}
+                    variant="primary"
+                    block
+                  >
                     <Icon name="download" size={15} />
-                    Download on Modrinth
+                    Download
                   </GlassButton>
                 </div>
               </GlassCard>
