@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { GlassCard, GlassButton, usePageTitle, Icon, Dropdown } from "ifamished-ui"
+import Searchbar from "ifamished-ui/components/Searchbar"
 
 export default function Download() {
   usePageTitle("OptiFine for Fabric | Download")
@@ -9,6 +10,7 @@ export default function Download() {
 
   const [releaseType, setReleaseType] = useState("All")
   const [mcVersion, setMcVersion] = useState("All")
+  const [search, setSearch] = useState("")
 
   const [mcVersions, setMcVersions] = useState([])
 
@@ -37,16 +39,28 @@ export default function Download() {
   useEffect(() => {
     let out = versions
 
+    // Release type filter
     if (releaseType !== "All") {
       out = out.filter(v => v.version_type === releaseType.toLowerCase())
     }
 
+    // MC version filter
     if (mcVersion !== "All") {
       out = out.filter(v => v.game_versions.includes(mcVersion))
     }
 
+    // Search filter
+    if (search.trim() !== "") {
+      const s = search.toLowerCase()
+      out = out.filter(v =>
+        v.name.toLowerCase().includes(s) ||
+        v.version_number.toLowerCase().includes(s) ||
+        v.version_type.toLowerCase().includes(s)
+      )
+    }
+
     setFiltered(out)
-  }, [releaseType, mcVersion, versions])
+  }, [releaseType, mcVersion, search, versions])
 
   return (
     <div className="page">
@@ -54,6 +68,9 @@ export default function Download() {
         <h1>Download</h1>
         <p>Choose the release that matches your Minecraft version.</p>
       </div>
+
+      {/* Search */}
+      <Searchbar value={search} onChange={setSearch} />
 
       {/* Filters */}
       <section className="section fade-in-up">
