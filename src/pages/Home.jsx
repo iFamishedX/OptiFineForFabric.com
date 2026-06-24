@@ -23,7 +23,7 @@ const highlights = [
   },
 ]
 
-const techTags = ["Fabric", "Sodium", "Iris", "Lithium", "Starlight", "Indium"]
+const techTags = ["Fabric", "Sodium", "Iris", "Lithium", "Starlight", "DynamicLights"]
 
 const stats = [
   { value: "2–5×", label: "FPS Boost" },
