@@ -9,7 +9,7 @@ import {
 } from "ifamished-ui"
 
 // -----------------------------
-// PACK VERSION PARSER
+// PACK VERSION PARSER (FINAL)
 // -----------------------------
 function getPackVersion(raw) {
   // Legacy rule
@@ -20,13 +20,14 @@ function getPackVersion(raw) {
   // Remove channel suffix
   const base = raw.split("-")[0] // e.g. "4.1.11"
 
-  // Split into major/minor/patch
   const parts = base.split(".")
   const major = parts[0]
-  const minor = parts[1] || null
+  const minor = parts[1]
 
-  // Always drop patch
-  if (!minor) return `v${major}`
+  // If minor missing OR "0", drop it
+  if (!minor || minor === "0") {
+    return `v${major}`
+  }
 
   return `v${major}.${minor}`
 }
@@ -84,6 +85,9 @@ export default function Download() {
 
       // Sort pack versions descending by major/minor
       pvList.sort((a, b) => {
+        if (a === "Legacy") return 1
+        if (b === "Legacy") return -1
+
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
 
