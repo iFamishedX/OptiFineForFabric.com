@@ -111,9 +111,9 @@ export default function Download() {
             {filtered.map(v => (
               <GlassCard key={v.id} className="download-card">
                 <div className="download-card-top">
-                  <div className="icon-badge">
+                  {/* <div className="icon-badge">
                     <Icon name="cube" size={22} strokeWidth={1.75} />
-                  </div>
+                  </div> */}
 
                   <div className={`version-badge version-badge--${v.version_type}`}>
                     <span className="version-badge-dot" />
@@ -132,7 +132,7 @@ export default function Download() {
                     variant="primary"
                     block
                   >
-                    <Icon name="download" size={15} />
+                    <Icon name="modrinth" size={15} />
                     Download
                   </GlassButton>
                 </div>
