@@ -251,7 +251,7 @@ export default function Download() {
                     variant="primary"
                     block
                   >
-                    <Icon name="modrinth" size={15} />
+                    <Icon name="download" size={15} />
                     Download
                   </GlassButton>
                 </div>
