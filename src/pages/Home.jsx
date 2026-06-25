@@ -26,10 +26,12 @@ const highlights = [
 const techTags = ["Fabric", "Sodium", "Iris", "Lithium", "Starlight", "DynamicLights"]
 
 const stats = [
-  { value: "2–5×", label: "FPS Boost" },
-  { value: "8", label: "Included Mods" },
-  { value: "100%", label: "Free & OSS" },
-  { value: "1.21", label: "Latest MC" },
+  { value: "8×", label: "FPS Boost" },
+  { value: "100%", label: "Free & open-source" },
+  { value: "26.2", label: "Latest MC version" },
+  { value: "<1 MB", label: "Lightweight Install" },
+  { value: "99%", label: "OptiFine parody" },
+  { value: "500k+", label: "Total Downloads" },
 ]
 
 export default function Home() {
