@@ -27,11 +27,10 @@ const techTags = ["Fabric", "Sodium", "Iris", "Lithium", "Starlight", "DynamicLi
 
 const stats = [
   { value: "8×", label: "FPS Boost" },
-  { value: "100%", label: "Free & open-source" },
-  { value: "26.2", label: "Latest MC version" },
-  { value: "<1 MB", label: "Lightweight Install" },
-  { value: "99%", label: "OptiFine parody" },
   { value: "500k+", label: "Total Downloads" },
+  { value: "26.2", label: "Latest versions" },
+  { value: "<1 MB", label: "Lightweight Install" },
+  { value: "100%", label: "Free & open-source" },
 ]
 
 export default function Home() {
