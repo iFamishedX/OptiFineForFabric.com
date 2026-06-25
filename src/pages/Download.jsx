@@ -125,9 +125,29 @@ export default function Download() {
 
     // Pack Version filter
     if (packVersion !== "All") {
-      out = out.filter(
-        v => getPackVersion(v.version_number) === packVersion
-      )
+      if (packVersion === "Legacy") {
+        // Legacy rule
+        out = out.filter(v => v.version_number.endsWith("-legacy"))
+      } else {
+        // Remove "v"
+        const pv = packVersion.replace("v", "")
+        const [pvMajor, pvMinor] = pv.split(".")
+
+        out = out.filter(v => {
+          const base = v.version_number.split("-")[0] // remove channel
+          const parts = base.split(".")
+          const major = parts[0]
+          const minor = parts[1] || "0"
+
+          // vX → match all X.*
+          if (!pvMinor) {
+            return major === pvMajor
+          }
+
+          // vX.Y → match all X.Y.*
+          return major === pvMajor && minor === pvMinor
+        })
+      }
     }
 
     // Search filter (raw version + name + type)
