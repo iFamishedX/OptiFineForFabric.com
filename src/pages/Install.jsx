@@ -2,75 +2,87 @@ import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const steps = [
   {
-    icon: "tool",
-    title: "Install Fabric Loader",
+    icon: "download",
+    title: "Install the Modrinth App",
     body: (
       <>
-        Download and run the{" "}
-        <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener noreferrer">
-          Fabric Installer
-        </a>
-        . Select your Minecraft version and click <strong>Install</strong>. The installer
-        creates a new Fabric profile in your launcher automatically.
+        Download the{" "}
+        <a
+          href="https://modrinth.com/app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Modrinth App
+        </a>{" "}
+        for Windows, macOS, or Linux. Run the installer and sign in (optional).
+        The app automatically manages your Minecraft instances and modpacks.
       </>
     ),
-    tags: ["fabricmc.net/use/installer"],
+    tags: ["modrinth.com/app"],
+  },
+  {
+    icon: "folder",
+    title: "Create or select an instance",
+    body: (
+      <>
+        In the Modrinth App, click <strong>+ New Instance</strong> or choose an
+        existing one. Select your Minecraft version and loader —{" "}
+        <strong>Fabric</strong> is required for OptiFine for Fabric.
+      </>
+    ),
+    tags: ["Fabric Loader"],
   },
   {
     icon: "download",
-    title: "Download OptiFine for Fabric",
+    title: "Add OptiFine for Fabric to the instance",
     body: (
       <>
-        Head to the <strong>Download</strong> page and grab the{" "}
-        <span className="code-inline">.jar</span> for your Minecraft version. Confirm
-        the required loader version matches what you installed in step 1.
+        Open your instance, go to the <strong>Mods</strong> tab, and click{" "}
+        <strong>Add Mod</strong>. Search for{" "}
+        <strong>OptiFine for Fabric</strong> and install the version matching
+        your Minecraft + Fabric Loader version.
       </>
     ),
     tags: ["Modrinth"],
   },
   {
-    icon: "folder",
-    title: "Place the JAR in your mods folder",
+    icon: "play",
+    title: "Launch the instance",
     body: (
       <>
-        Open your Minecraft directory and drop the{" "}
-        <span className="code-inline">.jar</span> inside the{" "}
-        <span className="code-inline">mods/</span> folder.{" "}
-        Windows: <span className="code-inline">%AppData%\.minecraft\mods</span>{" "}
-        — macOS:{" "}
-        <span className="code-inline">~/Library/Application Support/minecraft/mods</span>
+        Click <strong>Play</strong> inside the Modrinth App. The app handles all
+        mod loading automatically — no manual file management required.
       </>
     ),
-    tags: [],
-  },
-  {
-    icon: "play",
-    title: "Launch the Fabric profile",
-    body: "Open your launcher, select the Fabric profile created in step 1, and hit Play. OptiFine for Fabric loads automatically alongside Minecraft.",
     tags: [],
   },
 ]
 
 const troubleshooting = [
   {
-    heading: "Game won't launch",
-    detail: "Verify the Fabric Loader version in your launcher matches the version required by the mod.",
+    heading: "Mod not appearing in search",
+    detail:
+      "Ensure your instance is set to Fabric and the correct Minecraft version.",
   },
   {
     heading: "Shaders not working",
-    detail: "Confirm Iris is present as a separate .jar in your mods folder — it is not bundled.",
+    detail:
+      "Install Iris from the Mods tab — OptiFine for Fabric does not bundle shader support.",
   },
   {
     heading: "Connected textures missing",
-    detail: "Your resource pack must use OptiFine-format CTM files. Not all packs support this.",
+    detail:
+      "Your resource pack must include OptiFine-format CTM files. Not all packs support this.",
   },
   {
     heading: "Lower FPS after installing",
-    detail: "Remove any other rendering mods (OptiFine .jar, Canvas, etc.) that may conflict with Sodium.",
+    detail:
+      "Remove conflicting rendering mods (OptiFine .jar, Canvas, etc.) that override Sodium.",
   },
   {
-    heading: "Crash on startup",
-    detail: "Check .minecraft/crash-reports/ and look for the failing mod in the stack trace.",
+    heading: "Game crashes on launch",
+    detail:
+      "Open the instance logs in the Modrinth App and check for a failing mod in the stack trace.",
   },
 ]
 
@@ -81,13 +93,13 @@ export default function Install() {
     <div className="page">
       <div className="page-header fade-in-up">
         <h1>Installation Guide</h1>
-        <p>Get up and running in four steps. No prior modding experience required.</p>
+        <p>Install OptiFine for Fabric using the Modrinth App — the easiest method.</p>
       </div>
 
       {/* Timeline steps */}
       <section className="section">
         <div className="install-timeline stagger">
-          {steps.map(({ icon, title, body, tags }, i) => (
+          {steps.map(({ icon, title, body, tags }) => (
             <GlassCard key={title} className="install-step">
               <div className="install-step-number">
                 <Icon name={icon} size={18} strokeWidth={1.75} />
@@ -98,9 +110,14 @@ export default function Install() {
                 <p>{body}</p>
 
                 {tags.length > 0 && (
-                  <div className="project-stack" style={{ marginTop: "var(--space-1)" }}>
+                  <div
+                    className="project-stack"
+                    style={{ marginTop: "var(--space-1)" }}
+                  >
                     {tags.map((tag) => (
-                      <span key={tag} className="tech-tag">{tag}</span>
+                      <span key={tag} className="tech-tag">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 )}
@@ -138,11 +155,16 @@ export default function Install() {
         <h2>Still stuck?</h2>
         <p>Ask in the Discord server or browse the FAQ for more answers.</p>
         <div className="cta-actions">
-          <GlassButton href="https://discord.com/users/iFamished" variant="primary">
+          <GlassButton
+            href="https://discord.com/users/iFamished"
+            variant="primary"
+          >
             <Icon name="discord" size={16} />
             Join Discord
           </GlassButton>
-          <GlassButton to="/faq" variant="ghost">FAQ</GlassButton>
+          <GlassButton to="/faq" variant="ghost">
+            FAQ
+          </GlassButton>
         </div>
       </div>
     </div>

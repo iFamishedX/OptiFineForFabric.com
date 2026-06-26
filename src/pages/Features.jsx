@@ -4,7 +4,7 @@ const features = [
   {
     icon: "bolt",
     title: "Sodium Rendering Engine",
-    desc: "Replaces the vanilla chunk rendering pipeline with a highly optimised modern implementation. Expect 2–5× FPS improvements on most hardware.",
+    desc: "Replaces the vanilla chunk rendering pipeline with a highly optimized modern implementation. Expect 2–5× FPS improvements on most hardware.",
   },
   {
     icon: "battery",
