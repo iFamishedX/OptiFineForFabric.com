@@ -243,9 +243,8 @@ export default function Download() {
                   <GlassButton
                     onClick={() => tryOpenModrinthApp(v.id)}
                     variant="primary"
-                    block
                   >
-                    <Icon name="download" size={15} />
+                    <Icon name="modrinth" size={15} />
                     Install (App)
                   </GlassButton>
 
@@ -253,7 +252,6 @@ export default function Download() {
                   <GlassButton
                     href={`https://modrinth.com/modpack/optifine-for-fabric/version/${v.version_number}`}
                     variant="ghost"
-                    block
                   >
                     <Icon name="download" size={15} />
                     Direct Link
