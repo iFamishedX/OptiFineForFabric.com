@@ -9,26 +9,17 @@ import {
 } from "ifamished-ui"
 
 // -----------------------------
-// PACK VERSION PARSER (FINAL)
+// PACK VERSION PARSER
 // -----------------------------
 function getPackVersion(raw) {
-  // Legacy rule
-  if (raw.endsWith("-legacy")) {
-    return "Legacy"
-  }
+  if (raw.endsWith("-legacy")) return "Legacy"
 
-  // Remove channel suffix
-  const base = raw.split("-")[0] // e.g. "4.1.11"
-
+  const base = raw.split("-")[0]
   const parts = base.split(".")
   const major = parts[0]
   const minor = parts[1]
 
-  // If minor missing OR "0", drop it
-  if (!minor || minor === "0") {
-    return `v${major}`
-  }
-
+  if (!minor || minor === "0") return `v${major}`
   return `v${major}.${minor}`
 }
 
@@ -46,6 +37,9 @@ export default function Download() {
   const [mcVersions, setMcVersions] = useState([])
   const [packVersions, setPackVersions] = useState([])
 
+  // Track which cards failed to open the Modrinth App
+  const [appErrors, setAppErrors] = useState({})
+
   // -----------------------------
   // LOAD DATA
   // -----------------------------
@@ -56,34 +50,22 @@ export default function Download() {
       )
       const data = await res.json()
 
-      // Sort newest → oldest
-      data.sort(
-        (a, b) => new Date(b.date_published) - new Date(a.date_published)
-      )
+      data.sort((a, b) => new Date(b.date_published) - new Date(a.date_published))
 
       setVersions(data)
       setFiltered(data)
 
-      // -----------------------------
-      // Build MC version list
-      // -----------------------------
       const mc = new Set()
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
-      // -----------------------------
-      // Build Pack Version list
-      // -----------------------------
       const pv = new Set()
       data.forEach(v => pv.add(getPackVersion(v.version_number)))
 
       let pvList = Array.from(pv)
-
-      // Remove Legacy temporarily
       const legacyIndex = pvList.indexOf("Legacy")
       if (legacyIndex !== -1) pvList.splice(legacyIndex, 1)
 
-      // Sort pack versions descending by major/minor
       pvList.sort((a, b) => {
         if (a === "Legacy") return 1
         if (b === "Legacy") return -1
@@ -91,14 +73,10 @@ export default function Download() {
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
 
-        // Compare major
         if (pa[0] !== pb[0]) return pb[0] - pa[0]
-
-        // Compare minor
         return (pb[1] || 0) - (pa[1] || 0)
       })
 
-      // Add Legacy at bottom
       if (legacyIndex !== -1) pvList.push("Legacy")
 
       setPackVersions(["All", ...pvList])
@@ -113,44 +91,33 @@ export default function Download() {
   useEffect(() => {
     let out = versions
 
-    // Release type filter
     if (releaseType !== "All") {
       out = out.filter(v => v.version_type === releaseType.toLowerCase())
     }
 
-    // MC version filter
     if (mcVersion !== "All") {
       out = out.filter(v => v.game_versions.includes(mcVersion))
     }
 
-    // Pack Version filter
     if (packVersion !== "All") {
       if (packVersion === "Legacy") {
-        // Legacy rule
         out = out.filter(v => v.version_number.endsWith("-legacy"))
       } else {
-        // Remove "v"
         const pv = packVersion.replace("v", "")
         const [pvMajor, pvMinor] = pv.split(".")
 
         out = out.filter(v => {
-          const base = v.version_number.split("-")[0] // remove channel
+          const base = v.version_number.split("-")[0]
           const parts = base.split(".")
           const major = parts[0]
           const minor = parts[1] || "0"
 
-          // vX → match all X.*
-          if (!pvMinor) {
-            return major === pvMajor
-          }
-
-          // vX.Y → match all X.Y.*
+          if (!pvMinor) return major === pvMajor
           return major === pvMajor && minor === pvMinor
         })
       }
     }
 
-    // Search filter (raw version + name + type)
     if (search.trim() !== "") {
       const s = search.toLowerCase()
       out = out.filter(v =>
@@ -164,6 +131,27 @@ export default function Download() {
   }, [releaseType, mcVersion, packVersion, search, versions])
 
   // -----------------------------
+  // HANDLE MODRINTH APP DEEP LINK
+  // -----------------------------
+  function tryOpenModrinthApp(versionId) {
+    const deepLink = `modrinth://version/${versionId}`
+
+    const timeout = setTimeout(() => {
+      setAppErrors(prev => ({ ...prev, [versionId]: true }))
+    }, 800)
+
+    const iframe = document.createElement("iframe")
+    iframe.style.display = "none"
+    iframe.src = deepLink
+    document.body.appendChild(iframe)
+
+    setTimeout(() => {
+      document.body.removeChild(iframe)
+      clearTimeout(timeout)
+    }, 1000)
+  }
+
+  // -----------------------------
   // RENDER
   // -----------------------------
   return (
@@ -173,17 +161,12 @@ export default function Download() {
         <p>Choose the release that matches your Minecraft version.</p>
       </div>
 
-      {/* Search */}
       <Searchbar value={search} onChange={setSearch} />
 
-      {/* Filters */}
       <section className="section fade-in-up">
         <div
           className="download-filters"
-          style={{
-            justifyContent: "center",
-            marginBottom: "var(--space-4)"
-          }}
+          style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}
         >
           <Dropdown
             label="Release Type"
@@ -208,7 +191,6 @@ export default function Download() {
         </div>
       </section>
 
-      {/* Versions */}
       <section className="section">
         {filtered.length === 0 ? (
           <div className="no-results fade-in-up">
@@ -230,9 +212,7 @@ export default function Download() {
             {filtered.map(v => (
               <GlassCard key={v.id} className="download-card">
                 <div className="download-card-top">
-                  <div
-                    className={`version-badge version-badge--${v.version_type}`}
-                  >
+                  <div className={`version-badge version-badge--${v.version_type}`}>
                     <span className="version-badge-dot" />
                     {v.version_type}
                   </div>
@@ -245,14 +225,38 @@ export default function Download() {
                   <p className="download-desc">{v.name}</p>
                 </div>
 
-                <div className="download-actions">
+                {/* Error banner if Modrinth App not installed */}
+                {appErrors[v.id] && (
+                  <div className="download-error">
+                    <p>Modrinth App not detected.</p>
+                    <GlassButton to="/install" size="sm" variant="primary">
+                      Go to Install Guide
+                    </GlassButton>
+                  </div>
+                )}
+
+                <div
+                  className="download-actions"
+                  style={{ display: "flex", gap: "var(--space-2)" }}
+                >
+                  {/* Modrinth App deep link */}
                   <GlassButton
-                    href={`https://modrinth.com/mod/optifine-for-fabric/version/${v.version_number}`}
+                    onClick={() => tryOpenModrinthApp(v.id)}
                     variant="primary"
                     block
                   >
                     <Icon name="download" size={15} />
-                    Download
+                    Install (App)
+                  </GlassButton>
+
+                  {/* Direct website link */}
+                  <GlassButton
+                    href={`https://modrinth.com/modpack/optifine-for-fabric/version/${v.version_number}`}
+                    variant="ghost"
+                    block
+                  >
+                    <Icon name="download" size={15} />
+                    Direct Link
                   </GlassButton>
                 </div>
               </GlassCard>
