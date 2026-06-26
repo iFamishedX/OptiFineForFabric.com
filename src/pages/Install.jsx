@@ -2,7 +2,7 @@ import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const steps = [
   {
-    icon: "download",
+    icon: "modrinth",
     title: "Install the Modrinth App",
     body: (
       <>
@@ -14,7 +14,7 @@ const steps = [
         >
           Modrinth App
         </a>{" "}
-        for Windows, macOS, or Linux. Run the installer and sign in (optional).
+        for Windows, macOS, or Linux. Run the installer and open the app.
         The app automatically manages your Minecraft instances and modpacks.
       </>
     ),
@@ -22,28 +22,24 @@ const steps = [
   },
   {
     icon: "folder",
-    title: "Create or select an instance",
+    title: "Visit the OptiFine for Fabric page",
     body: (
       <>
-        In the Modrinth App, click <strong>+ New Instance</strong> or choose an
-        existing one. Select your Minecraft version and loader —{" "}
-        <strong>Fabric</strong> is required for OptiFine for Fabric.
+        Once the Modrinth App is installed, <strong>click this.</strong>modrinth://modpack/optifine-for-fabric
       </>
     ),
-    tags: ["Fabric Loader"],
+    tags: ["Visit"],
   },
   {
     icon: "download",
-    title: "Add OptiFine for Fabric to the instance",
+    title: "Install OptiFine for Fabric",
     body: (
       <>
-        Open your instance, go to the <strong>Mods</strong> tab, and click{" "}
-        <strong>Add Mod</strong>. Search for{" "}
-        <strong>OptiFine for Fabric</strong> and install the version matching
-        your Minecraft + Fabric Loader version.
+        Navigate to the <strong>Versions</strong> tab.
+        Download the correct version for your specific use case.
       </>
     ),
-    tags: ["Modrinth"],
+    tags: ["Install"],
   },
   {
     icon: "play",
@@ -60,29 +56,24 @@ const steps = [
 
 const troubleshooting = [
   {
-    heading: "Mod not appearing in search",
+    heading: "The link isn't working",
     detail:
-      "Ensure your instance is set to Fabric and the correct Minecraft version.",
-  },
-  {
-    heading: "Shaders not working",
-    detail:
-      "Install Iris from the Mods tab — OptiFine for Fabric does not bundle shader support.",
-  },
-  {
-    heading: "Connected textures missing",
-    detail:
-      "Your resource pack must include OptiFine-format CTM files. Not all packs support this.",
+      "Ensure the Modrinth App is installed.",
   },
   {
     heading: "Lower FPS after installing",
     detail:
-      "Remove conflicting rendering mods (OptiFine .jar, Canvas, etc.) that override Sodium.",
+      "Remove conflicting rendering mods (OptiFabric, Canvas, etc.) that override Sodium.",
   },
   {
     heading: "Game crashes on launch",
     detail:
       "Open the instance logs in the Modrinth App and check for a failing mod in the stack trace.",
+  },
+    {
+    heading: "Other issues...",
+    detail:
+      "Reach out to me directly or visit the OptiFine for Fabric Discord! I'm happy to help.",
   },
 ]
 
@@ -93,7 +84,7 @@ export default function Install() {
     <div className="page">
       <div className="page-header fade-in-up">
         <h1>Installation Guide</h1>
-        <p>Install OptiFine for Fabric using the Modrinth App — the easiest method.</p>
+        <p>Install OptiFine for Fabric using the Modrinth App.</p>
       </div>
 
       {/* Timeline steps */}
