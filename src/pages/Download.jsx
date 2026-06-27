@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react"
-import {
-  GlassCard,
-  GlassButton,
-  usePageTitle,
-  Icon,
-  Dropdown,
-  Searchbar
-} from "ifamished-ui"
+import { GlassCard, usePageTitle, Icon, Dropdown, Searchbar } from "ifamished-ui"
+import { useNavigate } from "react-router-dom"
 
-// -----------------------------
-// PACK VERSION PARSER
-// -----------------------------
 function getPackVersion(raw) {
   if (raw.endsWith("-legacy")) return "Legacy"
-
   const base = raw.split("-")[0]
-  const parts = base.split(".")
-  const major = parts[0]
-  const minor = parts[1]
-
+  const [major, minor] = base.split(".")
   if (!minor || minor === "0") return `v${major}`
   return `v${major}.${minor}`
 }
@@ -37,12 +24,8 @@ export default function Download() {
   const [mcVersions, setMcVersions] = useState([])
   const [packVersions, setPackVersions] = useState([])
 
-  const [appErrors, setAppErrors] = useState({})
-  const [retrying, setRetrying] = useState({})
+  const navigate = useNavigate()
 
-  // -----------------------------
-  // LOAD DATA
-  // -----------------------------
   useEffect(() => {
     async function load() {
       const res = await fetch(
@@ -69,10 +52,8 @@ export default function Download() {
       pvList.sort((a, b) => {
         if (a === "Legacy") return 1
         if (b === "Legacy") return -1
-
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
-
         if (pa[0] !== pb[0]) return pb[0] - pa[0]
         return (pb[1] || 0) - (pa[1] || 0)
       })
@@ -85,9 +66,6 @@ export default function Download() {
     load()
   }, [])
 
-  // -----------------------------
-  // FILTERING
-  // -----------------------------
   useEffect(() => {
     let out = versions
 
@@ -108,10 +86,7 @@ export default function Download() {
 
         out = out.filter(v => {
           const base = v.version_number.split("-")[0]
-          const parts = base.split(".")
-          const major = parts[0]
-          const minor = parts[1] || "0"
-
+          const [major, minor = "0"] = base.split(".")
           if (!pvMinor) return major === pvMajor
           return major === pvMajor && minor === pvMinor
         })
@@ -130,34 +105,6 @@ export default function Download() {
     setFiltered(out)
   }, [releaseType, mcVersion, packVersion, search, versions])
 
-  // -----------------------------
-  // RELIABLE MODRINTH APP DETECTION (2026)
-  // -----------------------------
-  function tryOpenModrinthApp(versionId) {
-    const deepLink = `modrinth://version/${versionId}`
-
-    const iframe = document.createElement("iframe")
-    iframe.style.display = "none"
-    iframe.src = deepLink
-    document.body.appendChild(iframe)
-
-    const failTimer = setTimeout(() => {
-      setAppErrors(prev => ({ ...prev, [versionId]: true }))
-    }, 900)
-
-    iframe.onerror = () => {
-      clearTimeout(failTimer)
-      setAppErrors(prev => ({ ...prev, [versionId]: true }))
-    }
-
-    setTimeout(() => {
-      document.body.removeChild(iframe)
-    }, 1500)
-  }
-
-  // -----------------------------
-  // RENDER
-  // -----------------------------
   return (
     <div className="page">
       <div className="page-header fade-in-up">
@@ -169,147 +116,43 @@ export default function Download() {
 
       <section className="section fade-in-up">
         <div className="download-filters">
-          <Dropdown
-            label="Release Type"
-            value={releaseType}
-            onChange={setReleaseType}
-            options={["All", "release", "beta", "alpha"]}
-          />
+          <Dropdown label="Release Type" value={releaseType} onChange={setReleaseType}
+            options={["All", "release", "beta", "alpha"]} />
 
-          <Dropdown
-            label="Minecraft Version"
-            value={mcVersion}
-            onChange={setMcVersion}
-            options={mcVersions}
-          />
+          <Dropdown label="Minecraft Version" value={mcVersion} onChange={setMcVersion}
+            options={mcVersions} />
 
-          <Dropdown
-            label="Pack Version"
-            value={packVersion}
-            onChange={setPackVersion}
-            options={packVersions}
-          />
+          <Dropdown label="Pack Version" value={packVersion} onChange={setPackVersion}
+            options={packVersions} />
         </div>
       </section>
 
       <section className="section">
-        {filtered.length === 0 ? (
-          <div className="no-results fade-in-up">
-            <p>No versions match your filters.</p>
-            <GlassButton
-              variant="ghost"
-              onClick={() => {
-                setReleaseType("All")
-                setMcVersion("All")
-                setPackVersion("All")
-                setSearch("")
-              }}
+        <div className="download-grid stagger">
+          {filtered.map(v => (
+            <GlassCard
+              key={v.id}
+              className="download-card"
+              onClick={() => navigate(`/download/${v.version_number}`)}
+              style={{ cursor: "pointer" }}
             >
-              Reset Filters
-            </GlassButton>
-          </div>
-        ) : (
-          <div className="download-grid stagger">
-            {filtered.map(v => (
-              <GlassCard key={v.id} className="download-card">
-                <div className="download-card-top">
-                  <div className={`version-badge version-badge--${v.version_type}`}>
-                    <span className="version-badge-dot" />
-                    {v.version_type}
-                  </div>
-
-                  <span className="download-mc-label">Minecraft</span>
-                  <span className="download-version">
-                    {getPackVersion(v.version_number)}
-                  </span>
-
-                  <p className="download-desc">{v.name}</p>
+              <div className="download-card-top">
+                <div className={`version-badge version-badge--${v.version_type}`}>
+                  <span className="version-badge-dot" />
+                  {v.version_type}
                 </div>
 
-                {/* Error banner */}
-                {appErrors[v.id] && (
-                  <div className="download-error fade-in">
-                    <button
-                      className="download-error-close"
-                      onClick={() =>
-                        setAppErrors(prev => ({ ...prev, [v.id]: false }))
-                      }
-                    >
-                      ✕
-                    </button>
+                <span className="download-mc-label">Minecraft</span>
+                <span className="download-version">
+                  {getPackVersion(v.version_number)}
+                </span>
 
-                    <p>Modrinth App not detected.</p>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "var(--space-2)",
-                        marginTop: "var(--space-2)"
-                      }}
-                    >
-                      <GlassButton
-                        size="sm"
-                        variant="danger"
-                        to="/install"
-                      >
-                        Installation Guide
-                      </GlassButton>
-
-                      <GlassButton
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => {
-                          setRetrying(prev => ({ ...prev, [v.id]: true }))
-                          setAppErrors(prev => ({ ...prev, [v.id]: false }))
-
-                          setTimeout(() => {
-                            tryOpenModrinthApp(v.id)
-                            setRetrying(prev => ({ ...prev, [v.id]: false }))
-                          }, 300)
-                        }}
-                      >
-                        {retrying[v.id] ? "Retrying..." : "Try Again"}
-                      </GlassButton>
-                    </div>
-                  </div>
-                )}
-
-                <div className="download-actions">
-                  <GlassButton
-                    onClick={() => tryOpenModrinthApp(v.id)}
-                    variant="primary"
-                  >
-                    <Icon name="modrinth" size={15} />
-                    Install
-                  </GlassButton>
-
-                  <GlassButton
-                    href={`https://modrinth.com/modpack/optifine-for-fabric/version/${v.version_number}`}
-                    variant="ghost"
-                  >
-                    <Icon name="download" size={15} />
-                    Download
-                  </GlassButton>
-                </div>
-              </GlassCard>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <div className="cta-section fade-in-up">
-        <h2>Need help?</h2>
-        <p>Check the installation guide or ask in the Discord community.</p>
-        <div className="cta-actions">
-          <GlassButton to="/install">
-            <Icon name="tool" size={16} />
-            Installation Guide
-          </GlassButton>
-          <GlassButton to="/faq" variant="ghost">
-            FAQ
-          </GlassButton>
+                <p className="download-desc">{v.name}</p>
+              </div>
+            </GlassCard>
+          ))}
         </div>
-      </div>
+      </section>
     </div>
   )
 }

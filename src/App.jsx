@@ -34,6 +34,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/download" element={<Download />} />
+          <Route path="/download/:version" element={<DownloadVersion />} />
           <Route path="/features" element={<Features />} />
           <Route path="/install" element={<Install />} />
           <Route path="/faq" element={<FAQ />} />
