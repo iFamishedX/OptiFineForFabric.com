@@ -143,7 +143,10 @@ export default function Download() {
       </section>
 
       <section className="section">
-        <div className="download-grid stagger">
+        <div
+          className="download-grid stagger"
+          key={filtered.length + releaseType + mcVersion + packVersion + search}
+        >
           {filtered.map((v, i) => (
             <GlassCard
               key={v.id}
