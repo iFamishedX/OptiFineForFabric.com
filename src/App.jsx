@@ -3,6 +3,7 @@ import { Navbar, Footer } from "ifamished-ui"
 
 import Home from "./pages/Home"
 import Download from "./pages/Download"
+import DownloadVersion from "./pages/download/DownloadVersion"
 import Features from "./pages/Features"
 import Install from "./pages/Install"
 import FAQ from "./pages/FAQ"
