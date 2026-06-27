@@ -165,7 +165,7 @@ export default function Download() {
                 </span>
 
                 <span className="download-version">
-                  {getPackVersion(v.version_number)}
+                  {v.version_number}
                 </span>
 
                 <p className="download-desc">{v.name}</p>
