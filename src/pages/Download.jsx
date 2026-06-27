@@ -38,6 +38,7 @@ export default function Download() {
   const [packVersions, setPackVersions] = useState([])
 
   const [appErrors, setAppErrors] = useState({})
+  const [retrying, setRetrying] = useState({})
 
   // -----------------------------
   // LOAD DATA
@@ -225,13 +226,30 @@ export default function Download() {
                   <p className="download-desc">{v.name}</p>
                 </div>
 
+                {/* Error banner */}
                 {appErrors[v.id] && (
                   <div className="download-error fade-in">
+                    <button
+                      className="download-error-close"
+                      onClick={() =>
+                        setAppErrors(prev => ({ ...prev, [v.id]: false }))
+                      }
+                    >
+                      ✕
+                    </button>
+
                     <p>Modrinth App not detected.</p>
-                    <div style={{ display: "flex", gap: "var(--space-2)", marginTop: "var(--space-2)" }}>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "var(--space-2)",
+                        marginTop: "var(--space-2)"
+                      }}
+                    >
                       <GlassButton
                         size="sm"
-                        variant="primary"
+                        variant="danger"
                         to="/install"
                       >
                         Installation Guide
@@ -241,11 +259,16 @@ export default function Download() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
+                          setRetrying(prev => ({ ...prev, [v.id]: true }))
                           setAppErrors(prev => ({ ...prev, [v.id]: false }))
-                          tryOpenModrinthApp(v.id)
+
+                          setTimeout(() => {
+                            tryOpenModrinthApp(v.id)
+                            setRetrying(prev => ({ ...prev, [v.id]: false }))
+                          }, 300)
                         }}
                       >
-                        Try Again
+                        {retrying[v.id] ? "Retrying..." : "Try Again"}
                       </GlassButton>
                     </div>
                   </div>
