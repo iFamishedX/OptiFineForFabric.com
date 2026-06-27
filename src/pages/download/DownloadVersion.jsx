@@ -1,10 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { GlassButton, Icon, usePageTitle } from "ifamished-ui"
-import ReactMarkdown from "react-markdown"
-import remarkGfm from "remark-gfm"
-import rehypePrism from "rehype-prism-plus"
-import "prismjs/themes/prism-tomorrow.css" // or any Prism theme
+import { GlassButton, Icon, usePageTitle, MarkdownRenderer } from "ifamished-ui"
 
 export default function DownloadVersion() {
   const { version } = useParams()
@@ -37,6 +33,7 @@ export default function DownloadVersion() {
 
   return (
     <div className="page version-page fade-in-up">
+
       {/* Title */}
       <h1 className="version-title">
         OptiFine for Fabric {packVersion}
@@ -70,13 +67,10 @@ export default function DownloadVersion() {
       {/* Changelog */}
       <section className="version-changelog">
         <h2>Changelog</h2>
-        <ReactMarkdown
-          className="markdown-body"
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypePrism]}
-        >
-          {data.changelog || "_No changelog provided._"}
-        </ReactMarkdown>
+
+        <MarkdownRenderer
+          text={data.changelog || "_No changelog provided._"}
+        />
       </section>
     </div>
   )

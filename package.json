@@ -13,10 +13,6 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.0",
-    "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1",
-    "rehype-prism-plus": "^2.0.2",
-    "prismjs": "^1.30.0",
     "ifamished-ui": "github:iFamishedX/iFamished-UI"
   },
   "devDependencies": {
