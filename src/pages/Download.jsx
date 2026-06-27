@@ -37,7 +37,6 @@ export default function Download() {
   const [mcVersions, setMcVersions] = useState([])
   const [packVersions, setPackVersions] = useState([])
 
-  // Track which cards failed to open the Modrinth App
   const [appErrors, setAppErrors] = useState({})
 
   // -----------------------------
@@ -131,24 +130,28 @@ export default function Download() {
   }, [releaseType, mcVersion, packVersion, search, versions])
 
   // -----------------------------
-  // HANDLE MODRINTH APP DEEP LINK
+  // RELIABLE MODRINTH APP DETECTION (2026)
   // -----------------------------
   function tryOpenModrinthApp(versionId) {
     const deepLink = `modrinth://version/${versionId}`
-
-    const timeout = setTimeout(() => {
-      setAppErrors(prev => ({ ...prev, [versionId]: true }))
-    }, 800)
 
     const iframe = document.createElement("iframe")
     iframe.style.display = "none"
     iframe.src = deepLink
     document.body.appendChild(iframe)
 
+    const failTimer = setTimeout(() => {
+      setAppErrors(prev => ({ ...prev, [versionId]: true }))
+    }, 900)
+
+    iframe.onerror = () => {
+      clearTimeout(failTimer)
+      setAppErrors(prev => ({ ...prev, [versionId]: true }))
+    }
+
     setTimeout(() => {
       document.body.removeChild(iframe)
-      clearTimeout(timeout)
-    }, 1000)
+    }, 1500)
   }
 
   // -----------------------------
@@ -164,10 +167,7 @@ export default function Download() {
       <Searchbar value={search} onChange={setSearch} />
 
       <section className="section fade-in-up">
-        <div
-          className="download-filters"
-          style={{ justifyContent: "center", marginBottom: "var(--space-4)" }}
-        >
+        <div className="download-filters">
           <Dropdown
             label="Release Type"
             value={releaseType}
@@ -225,21 +225,33 @@ export default function Download() {
                   <p className="download-desc">{v.name}</p>
                 </div>
 
-                {/* Error banner if Modrinth App not installed */}
                 {appErrors[v.id] && (
-                  <div className="download-error">
+                  <div className="download-error fade-in">
                     <p>Modrinth App not detected.</p>
-                    <GlassButton to="/install" size="sm" variant="primary">
-                      Go to Install Guide
-                    </GlassButton>
+                    <div style={{ display: "flex", gap: "var(--space-2)", marginTop: "var(--space-2)" }}>
+                      <GlassButton
+                        size="sm"
+                        variant="primary"
+                        to="/install"
+                      >
+                        Installation Guide
+                      </GlassButton>
+
+                      <GlassButton
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          setAppErrors(prev => ({ ...prev, [v.id]: false }))
+                          tryOpenModrinthApp(v.id)
+                        }}
+                      >
+                        Try Again
+                      </GlassButton>
+                    </div>
                   </div>
                 )}
 
-                <div
-                  className="download-actions"
-                  style={{ display: "flex", gap: "var(--space-2)" }}
-                >
-                  {/* Modrinth App deep link */}
+                <div className="download-actions">
                   <GlassButton
                     onClick={() => tryOpenModrinthApp(v.id)}
                     variant="primary"
@@ -248,7 +260,6 @@ export default function Download() {
                     Install (App)
                   </GlassButton>
 
-                  {/* Direct website link */}
                   <GlassButton
                     href={`https://modrinth.com/modpack/optifine-for-fabric/version/${v.version_number}`}
                     variant="ghost"
