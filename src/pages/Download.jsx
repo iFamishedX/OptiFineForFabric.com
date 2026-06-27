@@ -19,6 +19,7 @@ export default function Download() {
 
   const navigate = useNavigate()
 
+  // Load versions
   useEffect(() => {
     async function load() {
       const res = await fetch(
@@ -31,10 +32,12 @@ export default function Download() {
       setVersions(data)
       setFiltered(data)
 
+      // Minecraft versions
       const mc = new Set()
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
+      // Pack versions
       const pv = new Set()
       data.forEach(v => pv.add(getPackVersion(v.version_number)))
 
@@ -59,6 +62,7 @@ export default function Download() {
     load()
   }, [])
 
+  // Filtering + stagger fix
   useEffect(() => {
     let out = versions
 
@@ -96,6 +100,12 @@ export default function Download() {
     }
 
     setFiltered(out)
+
+    // ⭐ Fix stagger animation not triggering after filtering
+    requestAnimationFrame(() => {
+      document.dispatchEvent(new Event("ifamished-ui-reveal"))
+    })
+
   }, [releaseType, mcVersion, packVersion, search, versions])
 
   return (
@@ -109,14 +119,26 @@ export default function Download() {
 
       <section className="section fade-in-up">
         <div className="download-filters">
-          <Dropdown label="Release Type" value={releaseType} onChange={setReleaseType}
-            options={["All", "release", "beta", "alpha"]} />
+          <Dropdown
+            label="Release Type"
+            value={releaseType}
+            onChange={setReleaseType}
+            options={["All", "release", "beta", "alpha"]}
+          />
 
-          <Dropdown label="Minecraft Version" value={mcVersion} onChange={setMcVersion}
-            options={mcVersions} />
+          <Dropdown
+            label="Minecraft Version"
+            value={mcVersion}
+            onChange={setMcVersion}
+            options={mcVersions}
+          />
 
-          <Dropdown label="Pack Version" value={packVersion} onChange={setPackVersion}
-            options={packVersions} />
+          <Dropdown
+            label="Pack Version"
+            value={packVersion}
+            onChange={setPackVersion}
+            options={packVersions}
+          />
         </div>
       </section>
 
@@ -135,7 +157,10 @@ export default function Download() {
                   {v.version_type}
                 </div>
 
-                <span className="download-mc-label">Minecraft {v.game_versions[0]}</span>
+                <span className="download-mc-label">
+                  Minecraft {v.game_versions[0]}
+                </span>
+
                 <span className="download-version">
                   {getPackVersion(v.version_number)}
                 </span>
