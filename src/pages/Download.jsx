@@ -37,7 +37,7 @@ export default function Download() {
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
-      // Pack versions
+      // Pack versions (collapsed)
       const pv = new Set()
       data.forEach(v => pv.add(getPackVersion(v.version_number)))
 
@@ -45,11 +45,11 @@ export default function Download() {
       const legacyIndex = pvList.indexOf("Legacy")
       if (legacyIndex !== -1) pvList.splice(legacyIndex, 1)
 
+      // Sort: v5, v4.1, v4, v3, v2.2, v2.1, v2, v1.1, v1
       pvList.sort((a, b) => {
-        if (a === "Legacy") return 1
-        if (b === "Legacy") return -1
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
+
         if (pa[0] !== pb[0]) return pb[0] - pa[0]
         return (pb[1] || 0) - (pa[1] || 0)
       })
@@ -78,15 +78,7 @@ export default function Download() {
       if (packVersion === "Legacy") {
         out = out.filter(v => v.version_number.endsWith("-legacy"))
       } else {
-        const pv = packVersion.replace("v", "")
-        const [pvMajor, pvMinor] = pv.split(".")
-
-        out = out.filter(v => {
-          const base = v.version_number.split("-")[0]
-          const [major, minor = "0"] = base.split(".")
-          if (!pvMinor) return major === pvMajor
-          return major === pvMajor && minor === pvMinor
-        })
+        out = out.filter(v => getPackVersion(v.version_number) === packVersion)
       }
     }
 
@@ -101,7 +93,6 @@ export default function Download() {
 
     setFiltered(out)
 
-    // Keep the reveal event if you still use it elsewhere
     requestAnimationFrame(() => {
       document.dispatchEvent(new Event("ifamished-ui-reveal"))
     })
@@ -165,7 +156,7 @@ export default function Download() {
                 </span>
 
                 <span className="download-version">
-                  {v.version_number}
+                  {getPackVersion(v.version_number)}
                 </span>
 
                 <p className="download-desc">{v.name}</p>
