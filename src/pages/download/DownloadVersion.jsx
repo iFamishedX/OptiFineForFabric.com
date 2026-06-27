@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { GlassButton, Icon, usePageTitle } from "ifamished-ui"
 import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
+import rehypeHighlight from "rehype-highlight"
 
 export default function DownloadVersion() {
   const { version } = useParams()
@@ -27,23 +29,22 @@ export default function DownloadVersion() {
   const mc = data.game_versions[0]
   const type = data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
 
-  // Extract pack version (v5, v4.1, etc.)
+  // Same logic as getPackVersion: no .0
   const base = data.version_number.split("-")[0]
   const [major, minor] = base.split(".")
-  const packVersion = minor ? `v${major}.${minor}` : `v${major}`
+  const packVersion = !minor || minor === "0" ? `v${major}` : `v${major}.${minor}`
 
   return (
     <div className="page version-page fade-in-up">
-
       {/* Title */}
       <h1 className="version-title">
         OptiFine for Fabric {packVersion}
       </h1>
 
-      {/* Tags */}
-      <div className="version-tags">
-        <span>[Minecraft {mc}]</span>
-        <span>[{type}]</span>
+      {/* Tech tags */}
+      <div className="tech-tag-list">
+        <span className="tech-tag">Minecraft {mc}</span>
+        <span className="tech-tag">{type}</span>
       </div>
 
       {/* Actions */}
@@ -68,7 +69,11 @@ export default function DownloadVersion() {
       {/* Changelog */}
       <section className="version-changelog">
         <h2>Changelog</h2>
-        <ReactMarkdown className="markdown-body">
+        <ReactMarkdown
+          className="markdown-body"
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+        >
           {data.changelog || "_No changelog provided._"}
         </ReactMarkdown>
       </section>
