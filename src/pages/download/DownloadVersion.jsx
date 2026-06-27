@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { GlassButton, Icon, usePageTitle, MarkdownRenderer } from "ifamished-ui"
-import { getPackVersion } from "../utils/getPackVersion"
+import { getPackVersion } from "../../utils/getPackVersion"
 
 export default function DownloadVersion() {
   const { version } = useParams()
