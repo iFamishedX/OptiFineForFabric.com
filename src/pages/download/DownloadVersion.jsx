@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { GlassCard, GlassButton, Icon, usePageTitle } from "ifamished-ui"
+import { GlassButton, Icon, usePageTitle } from "ifamished-ui"
+import ReactMarkdown from "react-markdown"
 
 export default function DownloadVersion() {
   const { version } = useParams()
@@ -23,35 +24,54 @@ export default function DownloadVersion() {
 
   const file = data.files.find(f => f.primary) || data.files[0]
 
+  const mc = data.game_versions[0]
+  const type = data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
+
+  // Extract pack version (v5, v4.1, etc.)
+  const base = data.version_number.split("-")[0]
+  const [major, minor] = base.split(".")
+  const packVersion = minor ? `v${major}.${minor}` : `v${major}`
+
   return (
-    <div className="page fade-in-up">
-      <h1>{data.name}</h1>
-      <p className="version-subtitle">
-        Minecraft {data.game_versions.join(", ")} • {data.version_type}
-      </p>
+    <div className="page version-page fade-in-up">
 
-      <GlassCard className="version-card">
+      {/* Title */}
+      <h1 className="version-title">
+        OptiFine for Fabric {packVersion}
+      </h1>
+
+      {/* Tags */}
+      <div className="version-tags">
+        <span>[Minecraft {mc}]</span>
+        <span>[{type}]</span>
+      </div>
+
+      {/* Actions */}
+      <div className="version-actions">
+        <GlassButton
+          variant="primary"
+          href={`modrinth://version/${data.id}`}
+        >
+          <Icon name="modrinth" size={16} />
+          Open in Modrinth App
+        </GlassButton>
+
+        <GlassButton
+          variant="ghost"
+          href={file.url}
+        >
+          <Icon name="download" size={16} />
+          Raw Download
+        </GlassButton>
+      </div>
+
+      {/* Changelog */}
+      <section className="version-changelog">
         <h2>Changelog</h2>
-        <pre className="changelog">{data.changelog}</pre>
-
-        <div className="version-links">
-          <GlassButton
-            href={file.url}
-            variant="primary"
-          >
-            <Icon name="download" size={16} />
-            Raw Download
-          </GlassButton>
-
-          <GlassButton
-            href={`modrinth://version/${data.id}`}
-            variant="ghost"
-          >
-            <Icon name="modrinth" size={16} />
-            Open in Modrinth App
-          </GlassButton>
-        </div>
-      </GlassCard>
+        <ReactMarkdown className="markdown-body">
+          {data.changelog || "_No changelog provided._"}
+        </ReactMarkdown>
+      </section>
     </div>
   )
 }
