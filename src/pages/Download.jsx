@@ -280,7 +280,7 @@ export default function Download() {
                     variant="primary"
                   >
                     <Icon name="modrinth" size={15} />
-                    Install (App)
+                    Install
                   </GlassButton>
 
                   <GlassButton
@@ -288,7 +288,7 @@ export default function Download() {
                     variant="ghost"
                   >
                     <Icon name="download" size={15} />
-                    Direct Link
+                    Download
                   </GlassButton>
                 </div>
               </GlassCard>
