@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react"
 import { GlassCard, usePageTitle, Icon, Dropdown, Searchbar } from "ifamished-ui"
 import { useNavigate } from "react-router-dom"
-
-function getPackVersion(raw) {
-  if (raw.endsWith("-legacy")) return "Legacy"
-  const base = raw.split("-")[0]
-  const [major, minor] = base.split(".")
-  if (!minor || minor === "0") return `v${major}`
-  return `v${major}.${minor}`
-}
+import { getPackVersion } from "../utils/getPackVersion"
 
 export default function Download() {
   usePageTitle("OptiFine for Fabric | Download")
@@ -142,7 +135,7 @@ export default function Download() {
                   {v.version_type}
                 </div>
 
-                <span className="download-mc-label">Minecraft</span>
+                <span className="download-mc-label">Minecraft {v.game_versions[0]}</span>
                 <span className="download-version">
                   {getPackVersion(v.version_number)}
                 </span>

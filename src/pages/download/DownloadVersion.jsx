@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { GlassButton, Icon, usePageTitle, MarkdownRenderer } from "ifamished-ui"
+import { getPackVersion } from "../utils/getPackVersion"
 
 export default function DownloadVersion() {
   const { version } = useParams()
@@ -27,12 +28,16 @@ export default function DownloadVersion() {
   const type = data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
 
   // Same logic as getPackVersion: no .0
-  const base = data.version_number.split("-")[0]
-  const [major, minor] = base.split(".")
-  const packVersion = !minor || minor === "0" ? `v${major}` : `v${major}.${minor}`
+  const packVersion = getPackVersion(data.version_number)
 
   return (
     <div className="page version-page fade-in-up">
+      <div className="version-back">
+        <GlassButton to="/download" variant="ghost">
+          <Icon name="arrow-left" size={16} />
+          Back
+        </GlassButton>
+      </div>
 
       {/* Title */}
       <h1 className="version-title">
@@ -57,10 +62,10 @@ export default function DownloadVersion() {
 
         <GlassButton
           variant="ghost"
-          href={file.url}
+          href={`https://modrinth.com/modpack/optifine-for-fabric/version/${data.version_number}`}
         >
           <Icon name="download" size={16} />
-          Raw Download
+          Direct Download
         </GlassButton>
       </div>
 
