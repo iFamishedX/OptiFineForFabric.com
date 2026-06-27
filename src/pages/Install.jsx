@@ -90,8 +90,8 @@ export default function Install() {
       {/* Timeline steps */}
       <section className="section">
         <div className="install-timeline stagger">
-          {steps.map(({ icon, title, body, tags }) => (
-            <GlassCard key={title} className="install-step">
+          {steps.map(({ icon, title, body, tags }, i) => (
+            <GlassCard key={title} className="install-step" style={{ "--i": i }}>
               <div className="install-step-number">
                 <Icon name={icon} size={18} strokeWidth={1.75} />
               </div>

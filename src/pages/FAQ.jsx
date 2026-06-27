@@ -47,8 +47,8 @@ export default function FAQ() {
 
       <section className="section">
         <div className="faq-list stagger">
-          {faqs.map(({ q, a }) => (
-            <FaqAccordion key={q} q={q} a={a} />
+          {faqs.map(({ q, a }, i) => (
+            <FaqAccordion key={q} q={q} a={a} style={{ "--i": i }} />
           ))}
         </div>
       </section>

@@ -96,8 +96,8 @@ export default function Home() {
         </div>
 
         <div className="overview-grid stagger">
-          {highlights.map(({ icon, title, desc }) => (
-            <GlassCard key={title} className="overview-card">
+          {highlights.map(({ icon, title, desc }, i) => (
+            <GlassCard key={title} className="overview-card" style={{ "--i": i }}>
               <div className="icon-badge">
                 <Icon name={icon} size={22} strokeWidth={1.75} />
               </div>

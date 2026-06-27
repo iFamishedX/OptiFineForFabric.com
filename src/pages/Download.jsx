@@ -101,7 +101,7 @@ export default function Download() {
 
     setFiltered(out)
 
-    // ⭐ Fix stagger animation not triggering after filtering
+    // Keep the reveal event if you still use it elsewhere
     requestAnimationFrame(() => {
       document.dispatchEvent(new Event("ifamished-ui-reveal"))
     })
@@ -144,12 +144,12 @@ export default function Download() {
 
       <section className="section">
         <div className="download-grid stagger">
-          {filtered.map(v => (
+          {filtered.map((v, i) => (
             <GlassCard
               key={v.id}
               className="download-card"
               onClick={() => navigate(`/download/${v.version_number}`)}
-              style={{ cursor: "pointer" }}
+              style={{ "--i": i, cursor: "pointer" }}
             >
               <div className="download-card-top">
                 <div className={`version-badge version-badge--${v.version_type}`}>

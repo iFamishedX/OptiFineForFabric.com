@@ -66,8 +66,8 @@ export default function Features() {
       {/* Feature cards */}
       <section className="section">
         <div className="features-grid stagger">
-          {features.map(({ icon, title, desc }) => (
-            <GlassCard key={title} className="feature-card">
+          {features.map(({ icon, title, desc }, i) => (
+            <GlassCard key={title} className="feature-card" style={{ "--i": i }}>
               <div className="icon-badge">
                 <Icon name={icon} size={22} strokeWidth={1.75} />
               </div>
@@ -87,7 +87,7 @@ export default function Features() {
         </div>
 
         <div className="compare-grid stagger">
-          <GlassCard className="compare-card">
+          <GlassCard className="compare-card" style={{ "--i": 0 }}>
             <div className="compare-card-header">
               <div className="icon-badge" style={{ width: 36, height: 36 }}>
                 <Icon name="xCircle" size={18} strokeWidth={1.75} />
@@ -95,7 +95,7 @@ export default function Features() {
               <h3>Vanilla Minecraft</h3>
             </div>
             <ul className="compare-list">
-              {comparison.map(({ label, vanilla }) => (
+              {comparison.map(({ label, vanilla }, idx) => (
                 <li key={label}>
                   <span className={`compare-list-icon compare-list-icon--${vanilla ? "yes" : "no"}`}>
                     <Icon name={vanilla ? "check" : "x"} size={16} strokeWidth={2.5} />
@@ -106,7 +106,7 @@ export default function Features() {
             </ul>
           </GlassCard>
 
-          <GlassCard className="compare-card">
+          <GlassCard className="compare-card" style={{ "--i": 1 }}>
             <div className="compare-card-header">
               <div className="icon-badge" style={{ width: 36, height: 36 }}>
                 <Icon name="checkCircle" size={18} strokeWidth={1.75} />
