@@ -32,13 +32,6 @@ export default function DownloadVersion() {
 
   return (
     <div className="page version-page fade-in-up">
-      <div className="version-back">
-        <GlassButton to="/download" variant="ghost">
-          <Icon name="arrow-left" size={16} />
-          Back
-        </GlassButton>
-      </div>
-
       {/* Title */}
       <h1 className="version-title">
         OptiFine for Fabric {packVersion}
