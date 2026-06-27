@@ -3,7 +3,8 @@ import { useEffect, useState } from "react"
 import { GlassButton, Icon, usePageTitle } from "ifamished-ui"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
-import rehypeHighlight from "rehype-highlight"
+import rehypePrism from "rehype-prism-plus"
+import "prismjs/themes/prism-tomorrow.css" // or any Prism theme
 
 export default function DownloadVersion() {
   const { version } = useParams()
@@ -72,7 +73,7 @@ export default function DownloadVersion() {
         <ReactMarkdown
           className="markdown-body"
           remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
+          rehypePlugins={[rehypePrism]}
         >
           {data.changelog || "_No changelog provided._"}
         </ReactMarkdown>
