@@ -27,23 +27,19 @@ export default function DownloadVersion() {
   const mc = data.game_versions[0]
   const type = data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
 
-  // Same logic as getPackVersion: no .0
   const packVersion = getPackVersion(data.version_number)
 
   return (
     <div className="page version-page fade-in-up">
-      {/* Title */}
       <h1 className="version-title">
         OptiFine for Fabric {packVersion}
       </h1>
 
-      {/* Tech tags */}
       <div className="tech-tag-list">
         <span className="tech-tag">Minecraft {mc}</span>
         <span className="tech-tag">{type}</span>
       </div>
 
-      {/* Actions */}
       <div className="version-actions">
         <GlassButton
           variant="primary"
@@ -62,7 +58,6 @@ export default function DownloadVersion() {
         </GlassButton>
       </div>
 
-      {/* Changelog */}
       <section className="version-changelog">
         <h2>Changelog</h2>
 
