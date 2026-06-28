@@ -37,16 +37,25 @@ export default function Download() {
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
-      // Pack versions (collapsed, no patches)
+      // Pack versions (collapsed, no patches, no hotfixes)
       const pv = new Set()
+      let hasLegacy = false
 
       data.forEach(v => {
         const pvRaw = getPackVersion(v.version_number)
 
-        if (pvRaw === "Legacy") return
+        // Literal legacy only
+        if (pvRaw === "Legacy") {
+          hasLegacy = true
+          return
+        }
 
+        // Skip accidental vlegacy
+        if (pvRaw.toLowerCase() === "vlegacy") return
+
+        // Skip patch versions (vX.Y.Z)
         const parts = pvRaw.replace("v", "").split(".")
-        if (parts.length === 3) return // exclude patch versions
+        if (parts.length === 3) return
 
         pv.add(pvRaw)
       })
@@ -62,7 +71,7 @@ export default function Download() {
         return (pb[1] || 0) - (pa[1] || 0)
       })
 
-      pvList.push("Legacy")
+      if (hasLegacy) pvList.push("Legacy")
 
       setPackVersions(["All", ...pvList])
     }
@@ -147,8 +156,12 @@ export default function Download() {
           key={filtered.length + releaseType + mcVersion + packVersion + search}
         >
           {filtered.map((v, i) => {
-            const channelNum = v.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)?.[2] || ""
-            const channelLabel = channelNum ? `${v.version_type.toUpperCase()} ${channelNum}` : v.version_type.toUpperCase()
+            const match = v.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)
+            const channelType = match ? match[1] : v.version_type
+            const channelNum = match ? match[2] : ""
+            const channelLabel = channelNum
+              ? `${channelType.charAt(0).toUpperCase() + channelType.slice(1)} ${channelNum}`
+              : channelType.charAt(0).toUpperCase() + channelType.slice(1)
 
             return (
               <GlassCard
@@ -158,23 +171,29 @@ export default function Download() {
                 style={{ "--i": i, cursor: "pointer" }}
               >
                 <div className="download-card-top">
+
+                  {/* Badge */}
                   <div className={`version-badge version-badge--${v.version_type}`}>
                     <span className="version-badge-dot" />
                     {channelLabel}
                   </div>
 
+                  {/* MC Version */}
                   <span className="download-mc-label">
                     Minecraft {v.game_versions[0]}
                   </span>
 
+                  {/* Pack Version */}
                   <span className="download-version">
                     {getPackVersion(v.version_number)}
                   </span>
 
+                  {/* Description */}
                   <p className="download-desc">
                     OptiFine for Fabric<br />
-                    • {getPackVersion(v.version_number)} • {v.game_versions[0]} • {channelLabel} •
+                    {getPackVersion(v.version_number)} • {v.game_versions[0]} • {channelLabel}
                   </p>
+
                 </div>
               </GlassCard>
             )

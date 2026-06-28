@@ -25,10 +25,12 @@ export default function DownloadVersion() {
   const mc = data.game_versions[0]
   const packVersion = getPackVersion(data.version_number)
 
-  const channelNum = data.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)?.[2] || ""
+  const match = data.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)
+  const channelType = match ? match[1] : data.version_type
+  const channelNum = match ? match[2] : ""
   const channelLabel = channelNum
-    ? `${data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)} ${channelNum}`
-    : data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
+    ? `${channelType.charAt(0).toUpperCase() + channelType.slice(1)} ${channelNum}`
+    : channelType.charAt(0).toUpperCase() + channelType.slice(1)
 
   return (
     <div className="page version-page fade-in-up">
