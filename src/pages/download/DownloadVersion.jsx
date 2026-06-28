@@ -22,12 +22,13 @@ export default function DownloadVersion() {
 
   if (!data) return <p>Loading…</p>
 
-  const file = data.files.find(f => f.primary) || data.files[0]
-
   const mc = data.game_versions[0]
-  const type = data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
-
   const packVersion = getPackVersion(data.version_number)
+
+  const channelNum = data.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)?.[2] || ""
+  const channelLabel = channelNum
+    ? `${data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)} ${channelNum}`
+    : data.version_type.charAt(0).toUpperCase() + data.version_type.slice(1)
 
   return (
     <div className="page version-page fade-in-up">
@@ -37,7 +38,7 @@ export default function DownloadVersion() {
 
       <div className="tech-tag-list">
         <span className="tech-tag">Minecraft {mc}</span>
-        <span className="tech-tag">{type}</span>
+        <span className="tech-tag">{channelLabel}</span>
       </div>
 
       <div className="version-actions">

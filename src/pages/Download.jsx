@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { GlassCard, usePageTitle, Icon, Dropdown, Searchbar } from "ifamished-ui"
+import { GlassCard, usePageTitle, Dropdown, Searchbar } from "ifamished-ui"
 import { useNavigate } from "react-router-dom"
 import { getPackVersion } from "../utils/getPackVersion"
 
@@ -37,13 +37,21 @@ export default function Download() {
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
-      // Pack versions (collapsed)
+      // Pack versions (collapsed, no patches)
       const pv = new Set()
-      data.forEach(v => pv.add(getPackVersion(v.version_number)))
+
+      data.forEach(v => {
+        const pvRaw = getPackVersion(v.version_number)
+
+        if (pvRaw === "Legacy") return
+
+        const parts = pvRaw.replace("v", "").split(".")
+        if (parts.length === 3) return // exclude patch versions
+
+        pv.add(pvRaw)
+      })
 
       let pvList = Array.from(pv)
-      const legacyIndex = pvList.indexOf("Legacy")
-      if (legacyIndex !== -1) pvList.splice(legacyIndex, 1)
 
       // Sort: v5, v4.1, v4, v3, v2.2, v2.1, v2, v1.1, v1
       pvList.sort((a, b) => {
@@ -54,7 +62,7 @@ export default function Download() {
         return (pb[1] || 0) - (pa[1] || 0)
       })
 
-      if (legacyIndex !== -1) pvList.push("Legacy")
+      pvList.push("Legacy")
 
       setPackVersions(["All", ...pvList])
     }
@@ -138,31 +146,39 @@ export default function Download() {
           className="download-grid stagger"
           key={filtered.length + releaseType + mcVersion + packVersion + search}
         >
-          {filtered.map((v, i) => (
-            <GlassCard
-              key={v.id}
-              className="download-card"
-              onClick={() => navigate(`/download/${v.version_number}`)}
-              style={{ "--i": i, cursor: "pointer" }}
-            >
-              <div className="download-card-top">
-                <div className={`version-badge version-badge--${v.version_type}`}>
-                  <span className="version-badge-dot" />
-                  {v.version_type}
+          {filtered.map((v, i) => {
+            const channelNum = v.version_number.match(/-(alpha|beta|hotfix)\.?(\d+)?$/i)?.[2] || ""
+            const channelLabel = channelNum ? `${v.version_type.toUpperCase()} ${channelNum}` : v.version_type.toUpperCase()
+
+            return (
+              <GlassCard
+                key={v.id}
+                className="download-card"
+                onClick={() => navigate(`/download/${v.version_number}`)}
+                style={{ "--i": i, cursor: "pointer" }}
+              >
+                <div className="download-card-top">
+                  <div className={`version-badge version-badge--${v.version_type}`}>
+                    <span className="version-badge-dot" />
+                    {channelLabel}
+                  </div>
+
+                  <span className="download-mc-label">
+                    Minecraft {v.game_versions[0]}
+                  </span>
+
+                  <span className="download-version">
+                    {getPackVersion(v.version_number)}
+                  </span>
+
+                  <p className="download-desc">
+                    OptiFine for Fabric<br />
+                    • {getPackVersion(v.version_number)} • {v.game_versions[0]} • {channelLabel} •
+                  </p>
                 </div>
-
-                <span className="download-mc-label">
-                  Minecraft {v.game_versions[0]}
-                </span>
-
-                <span className="download-version">
-                  {getPackVersion(v.version_number)}
-                </span>
-
-                <p className="download-desc">{v.name}</p>
-              </div>
-            </GlassCard>
-          ))}
+              </GlassCard>
+            )
+          })}
         </div>
       </section>
     </div>
