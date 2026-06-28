@@ -93,7 +93,10 @@ export default function Download() {
 
     if (packVersion !== "All") {
       if (packVersion === "Legacy") {
-        out = out.filter(v => v.version_number.endsWith("-legacy"))
+        out = out.filter(v =>
+          v.version_number.toLowerCase() === "legacy" ||
+          v.version_number.toLowerCase().endsWith("-legacy")
+        )
       } else {
         out = out.filter(v => getPackVersion(v.version_number) === packVersion)
       }
