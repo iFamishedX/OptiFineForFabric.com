@@ -24,7 +24,13 @@ export default function DownloadVersion() {
     load()
   }, [decodedVersion])
 
-  if (!data) return <p>Loading…</p>
+  if (!data) {
+    return (
+      <div className="page version-page fade-in-up">
+        <p>Loading…</p>
+      </div>
+    )
+  }
 
   const mc = data.game_versions[0]
   const packVersion = getPackVersion(data.version_number)
