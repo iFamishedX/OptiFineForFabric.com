@@ -9,7 +9,7 @@ export default function DownloadVersion() {
 
   const [data, setData] = useState(null)
 
-  const Spacer = <div style={{display: "block", height: 0, overflow: "hidden", borderTop: "10.0000001vh solid transparent"}} />
+  const Spacer = <div style={{display: "block", height: 0, overflow: "hidden", borderTop: "0.0000001vh solid transparent"}} />
 
   usePageTitle(`Download ${decodedVersion}`)
 
