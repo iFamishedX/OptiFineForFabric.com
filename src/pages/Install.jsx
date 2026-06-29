@@ -21,22 +21,41 @@ const steps = [
     tags: ["modrinth.com/app"],
   },
   {
-    icon: "folder",
-    title: "Visit the OptiFine for Fabric page",
+    icon: "website",
+    title: "Search for versions",
     body: (
       <>
-        Once the Modrinth App is installed, <strong>click this.</strong>modrinth://modpack/optifine-for-fabric
+        Once the Modrinth App is installed, go to{" "}
+        <a
+          href="https://optifineforfabric.com/download"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          optifineforfabric.com/download
+        </a>{" "}
+        .
       </>
     ),
-    tags: ["Visit"],
+    tags: ["Versions"],
+  },
+  {
+    icon: "folder",
+    title: "Select the best version for you",
+    body: (
+      <>
+        Use the provided filters to select the version of OptiFine for Fabric
+        that best suits you. Once you have chosen, click that version.
+      </>
+    ),
+    tags: ["Choose"],
   },
   {
     icon: "download",
-    title: "Install OptiFine for Fabric",
+    title: "Download",
     body: (
       <>
-        Navigate to the <strong>Versions</strong> tab.
-        Download the correct version for your specific use case.
+        Click the button that says <strong>Open in Modrinth App</strong>.
+        This will automatically open and install OptiFine for Fabric in Modrinth.
       </>
     ),
     tags: ["Install"],
@@ -46,8 +65,8 @@ const steps = [
     title: "Launch the instance",
     body: (
       <>
-        Click <strong>Play</strong> inside the Modrinth App. The app handles all
-        mod loading automatically — no manual file management required.
+        Once the instalation is complete, click <strong>Play</strong> inside the Modrinth App. 
+        The app handles all mod loading automatically — no manual file management required.
       </>
     ),
     tags: [],
@@ -56,7 +75,7 @@ const steps = [
 
 const troubleshooting = [
   {
-    heading: "The link isn't working",
+    heading: "The Open in Modrinth App button isn't working",
     detail:
       "Ensure the Modrinth App is installed.",
   },
