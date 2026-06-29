@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useLayoutEffect } from "react"
 import { GlassCard, usePageTitle, Dropdown, Searchbar } from "ifamished-ui"
 import { useNavigate } from "react-router-dom"
 import { getPackVersion } from "../utils/getPackVersion"
@@ -18,6 +18,13 @@ export default function Download() {
   const [packVersions, setPackVersions] = useState([])
 
   const navigate = useNavigate()
+
+  // Fix smooth scroll on route change for heavy pages
+  useLayoutEffect(() => {
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    })
+  }, [])
 
   // Load versions
   useEffect(() => {
