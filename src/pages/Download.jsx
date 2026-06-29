@@ -20,7 +20,8 @@ export default function Download() {
   const navigate = useNavigate()
 
   // Spacer fix: ensure page has height at mount
-  const Spacer = <div style={{ minHeight: "0.0000001px" }} />
+  const Spacer = <div style={{display: "block", height: "0", minHeight: "0", paddingTop: "0.0000001px"}} />
+
 
   // Load versions
   useEffect(() => {
