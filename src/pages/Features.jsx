@@ -44,9 +44,9 @@ const features = [
 ]
 
 const comparison = [
+  { label: "Hardware-accelerated rendering", vanilla: true, fabric: true },
   { label: "Works with resource packs", vanilla: true, fabric: true },
   { label: "Borderless fullscreen", vanilla: false, fabric: true },
-  { label: "Hardware-accelerated rendering", vanilla: true, fabric: true },
   { label: "Rebuilt lighting engine", vanilla: false, fabric: true },
   { label: "Shader pack support", vanilla: false, fabric: true },
   { label: "Connected textures", vanilla: false, fabric: true },
