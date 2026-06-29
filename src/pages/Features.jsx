@@ -4,7 +4,7 @@ const features = [
   {
     icon: "bolt",
     title: "Sodium Rendering Engine",
-    desc: "Replaces the vanilla chunk rendering pipeline with a highly optimized modern implementation. Expect 2–5× FPS improvements on most hardware.",
+    desc: "Replaces the vanilla chunk rendering pipeline with a highly optimized modern implementation. Expect 5-8× FPS improvements on most hardware.",
   },
   {
     icon: "battery",
@@ -29,7 +29,7 @@ const features = [
   {
     icon: "zoom",
     title: "Smooth Zoom",
-    desc: "Configurable zoom via Zoomify — bound to a key, with adjustable scroll sensitivity and no clunky FOV snapping.",
+    desc: "Configurable zoom — bound to a key, with adjustable scroll sensitivity and no clunky FOV snapping.",
   },
   {
     icon: "lightbulb",
@@ -46,15 +46,15 @@ const features = [
 const comparison = [
   { label: "Hardware-accelerated rendering", vanilla: true, fabric: true },
   { label: "Works with resource packs", vanilla: true, fabric: true },
+  { label: "Multi-threaded chunk rendering", vanilla: false, fabric: true },
+  { label: "Advanced block/entity culling", vanilla: false, fabric: true },
+  { label: "Faster world loading", vanilla: false, fabric: true },
   { label: "Borderless fullscreen", vanilla: false, fabric: true },
   { label: "Rebuilt lighting engine", vanilla: false, fabric: true },
   { label: "Shader pack support", vanilla: false, fabric: true },
   { label: "Connected textures", vanilla: false, fabric: true },
   { label: "Configurable zoom", vanilla: false, fabric: true },
   { label: "Dynamic lighting for held items", vanilla: false, fabric: true },
-  { label: "Multi-threaded chunk rendering", vanilla: false, fabric: true },
-  { label: "Advanced block/entity culling", vanilla: false, fabric: true },
-  { label: "Faster world loading", vanilla: false, fabric: true },
 ]
 
 export default function Features() {
