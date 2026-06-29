@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom"
-import { Navbar, Footer } from "ifamished-ui"
+import { Navbar, Footer, ScrollToTop } from "ifamished-ui"
 
 import Home from "./pages/Home"
 import Download from "./pages/Download"
@@ -30,6 +30,9 @@ export default function App() {
         brandDotColor="#38bdf8"
         navItems={navItems}
       />
+
+      {/* Scroll reset on route change */}
+      <ScrollToTop />
 
       <div className="container">
         <Routes>
