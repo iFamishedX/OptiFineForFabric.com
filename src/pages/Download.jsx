@@ -19,6 +19,9 @@ export default function Download() {
 
   const navigate = useNavigate()
 
+  // Spacer fix: ensure page has height at mount
+  const Spacer = <div style={{ minHeight: "100vh" }} />
+
   // Load versions
   useEffect(() => {
     async function load() {
@@ -32,28 +35,23 @@ export default function Download() {
       setVersions(data)
       setFiltered(data)
 
-      // Minecraft versions
       const mc = new Set()
       data.forEach(v => v.game_versions.forEach(g => mc.add(g)))
       setMcVersions(["All", ...Array.from(mc).sort().reverse()])
 
-      // Pack versions (collapsed, no patches, no hotfixes)
       const pv = new Set()
       let hasLegacy = false
 
       data.forEach(v => {
         const pvRaw = getPackVersion(v.version_number)
 
-        // Literal legacy only
         if (pvRaw === "Legacy") {
           hasLegacy = true
           return
         }
 
-        // Skip accidental vlegacy
         if (pvRaw.toLowerCase() === "vlegacy") return
 
-        // Skip patch versions (vX.Y.Z)
         const parts = pvRaw.replace("v", "").split(".")
         if (parts.length === 3) return
 
@@ -62,7 +60,6 @@ export default function Download() {
 
       let pvList = Array.from(pv)
 
-      // Sort: v5, v4.1, v4, v3, v2.2, v2.1, v2, v1.1, v1
       pvList.sort((a, b) => {
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
@@ -116,11 +113,12 @@ export default function Download() {
     requestAnimationFrame(() => {
       document.dispatchEvent(new Event("ifamished-ui-reveal"))
     })
-
   }, [releaseType, mcVersion, packVersion, search, versions])
 
   return (
     <div className="page">
+      {Spacer}
+
       <div className="page-header fade-in-up">
         <h1>Download</h1>
         <p>Choose the release that matches your Minecraft version.</p>
@@ -174,29 +172,23 @@ export default function Download() {
                 style={{ "--i": i, cursor: "pointer" }}
               >
                 <div className="download-card-top">
-
-                  {/* Badge */}
                   <div className={`version-badge version-badge--${v.version_type}`}>
                     <span className="version-badge-dot" />
                     {channelLabel}
                   </div>
 
-                  {/* MC Version */}
                   <span className="download-mc-label">
                     Minecraft {v.game_versions[0]}
                   </span>
 
-                  {/* Pack Version */}
                   <span className="download-version">
                     {getPackVersion(v.version_number)}
                   </span>
 
-                  {/* Description */}
                   <p className="download-desc">
                     OptiFine for Fabric<br />
                     {getPackVersion(v.version_number)} • {v.game_versions[0]} • {channelLabel}
                   </p>
-
                 </div>
               </GlassCard>
             )
