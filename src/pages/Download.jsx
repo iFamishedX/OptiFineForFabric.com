@@ -170,7 +170,7 @@ export default function Download() {
               <GlassCard
                 key={v.id}
                 className="download-card"
-                onClick={() => navigate(`/download/${v.version_number}`)}
+                onClick={() => navigate(`/download/${encodeURIComponent(v.version_number)}`)}
                 style={{ "--i": i, cursor: "pointer" }}
               >
                 <div className="download-card-top">

@@ -5,20 +5,22 @@ import { getPackVersion } from "../../utils/getPackVersion"
 
 export default function DownloadVersion() {
   const { version } = useParams()
+  const decodedVersion = decodeURIComponent(version)
+
   const [data, setData] = useState(null)
 
-  usePageTitle(`Download ${version}`)
+  usePageTitle(`Download ${decodedVersion}`)
 
   useEffect(() => {
     async function load() {
       const res = await fetch(
-        `https://api.modrinth.com/v2/project/optifine-for-fabric/version/${version}`
+        `https://api.modrinth.com/v2/project/optifine-for-fabric/version/${decodedVersion}`
       )
       const json = await res.json()
       setData(json)
     }
     load()
-  }, [version])
+  }, [decodedVersion])
 
   if (!data) return <p>Loading…</p>
 
