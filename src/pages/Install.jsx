@@ -6,14 +6,14 @@ const steps = [
     title: "Install the Modrinth App",
     body: (
       <>
-        Download the 
+        Download the{" "}
         <a
           href="https://modrinth.com/app"
           target="_blank"
           rel="noopener noreferrer"
         >
           Modrinth App
-        </a> 
+        </a>{" "}
         for Windows, macOS, or Linux. Run the installer and open the app.
         The app automatically manages your Minecraft instances and modpacks.
       </>
@@ -25,14 +25,14 @@ const steps = [
     title: "Search for versions",
     body: (
       <>
-        Once the Modrinth App is installed, go to 
+        Once the Modrinth App is installed, go to{" "}
         <a
           href="https://optifineforfabric.com/download"
           target="_blank"
           rel="noopener noreferrer"
         >
           optifineforfabric.com/download
-        </a>
+        </a>{" "}
         .
       </>
     ),
