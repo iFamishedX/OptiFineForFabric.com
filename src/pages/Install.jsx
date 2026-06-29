@@ -32,7 +32,7 @@ const steps = [
           rel="noopener noreferrer"
         >
           optifineforfabric.com/download
-        </a>{" "}
+        </a>
         .
       </>
     ),
