@@ -44,10 +44,9 @@ const features = [
 ]
 
 const comparison = [
-  { label: "Works with Fabric mods", vanilla: true, fabric: true },
   { label: "Works with resource packs", vanilla: true, fabric: true },
   { label: "Borderless fullscreen", vanilla: false, fabric: true },
-  { label: "Hardware-accelerated rendering", vanilla: false, fabric: true },
+  { label: "Hardware-accelerated rendering", vanilla: true, fabric: true },
   { label: "Rebuilt lighting engine", vanilla: false, fabric: true },
   { label: "Shader pack support", vanilla: false, fabric: true },
   { label: "Connected textures", vanilla: false, fabric: true },
@@ -55,8 +54,6 @@ const comparison = [
   { label: "Dynamic lighting for held items", vanilla: false, fabric: true },
   { label: "Multi-threaded chunk rendering", vanilla: false, fabric: true },
   { label: "Advanced block/entity culling", vanilla: false, fabric: true },
-  { label: "Improved particle performance", vanilla: false, fabric: true },
-  { label: "Works with Sodium & Iris", vanilla: false, fabric: true },
   { label: "Faster world loading", vanilla: false, fabric: true },
 ]
 
