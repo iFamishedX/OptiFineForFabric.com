@@ -9,6 +9,8 @@ export default function DownloadVersion() {
 
   const [data, setData] = useState(null)
 
+  const Spacer = <div style={{display: "block", height: 0, overflow: "hidden", borderTop: "0.0000001vh solid transparent"}} />
+
   usePageTitle(`Download ${decodedVersion}`)
 
   useEffect(() => {
@@ -36,6 +38,8 @@ export default function DownloadVersion() {
 
   return (
     <div className="page version-page fade-in-up">
+      {Spacer}
+
       <h1 className="version-title">
         OptiFine for Fabric {packVersion}
       </h1>
