@@ -10,12 +10,8 @@ const faqs = [
     a: "Yes. Iris — the shader engine bundled with this pack — was designed from the ground up to support OptiFine-format shader packs (GLSL Shaders). Most popular packs (BSL, Complementary, Sildurs, etc.) work out of the box.",
   },
   {
-    q: "Can I use it with an existing modpack?",
-    a: "In most cases, yes. All mods in the pack are individually removable. If a modpack already includes Sodium or Iris, remove the duplicates to avoid conflicts. Always check for hard incompatibilities listed on each mod's Modrinth page.",
-  },
-  {
     q: "Is it free?",
-    a: "Yes, completely. All mods included in OptiFine for Fabric are free and open source, published under permissive licences. You can find links to each mod on the Features page.",
+    a: "Yes, completely. All mods included in OptiFine for Fabric are free and open source, published under permissive licences.",
   },
   {
     q: "How do I install shaders?",
@@ -27,11 +23,11 @@ const faqs = [
   },
   {
     q: "How much faster is it compared to vanilla?",
-    a: "Results vary by hardware, but most players see 2–5× higher FPS at equivalent settings. Sodium targets modern GPU APIs, which especially benefits lower-end and integrated graphics hardware.",
+    a: "Results vary by hardware, but most players see 5-8× higher FPS at equivalent settings. Sodium targets modern GPU APIs, which especially benefits lower-end and integrated graphics hardware.",
   },
   {
     q: "Where do I report bugs?",
-    a: "Open an issue on the GitHub repository linked in the footer. Include your Minecraft version, Fabric Loader version, and the relevant section of your crash report or latest.log.",
+    a: "Open an issue on GitHub. Include your Minecraft version, Fabric Loader version, and the relevant section of your crash report or latest.log.",
   },
 ]
 
