@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from "react"
+import { useEffect, useState } from "react"
 import { GlassCard, usePageTitle, Dropdown, Searchbar } from "ifamished-ui"
 import { useNavigate } from "react-router-dom"
 import { getPackVersion } from "../utils/getPackVersion"
@@ -18,13 +18,6 @@ export default function Download() {
   const [packVersions, setPackVersions] = useState([])
 
   const navigate = useNavigate()
-
-  // Fix smooth scroll on route change for heavy pages
-  useLayoutEffect(() => {
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    })
-  }, [])
 
   // Load versions
   useEffect(() => {
@@ -51,13 +44,16 @@ export default function Download() {
       data.forEach(v => {
         const pvRaw = getPackVersion(v.version_number)
 
+        // Literal legacy only
         if (pvRaw === "Legacy") {
           hasLegacy = true
           return
         }
 
+        // Skip accidental vlegacy
         if (pvRaw.toLowerCase() === "vlegacy") return
 
+        // Skip patch versions (vX.Y.Z)
         const parts = pvRaw.replace("v", "").split(".")
         if (parts.length === 3) return
 
@@ -66,6 +62,7 @@ export default function Download() {
 
       let pvList = Array.from(pv)
 
+      // Sort: v5, v4.1, v4, v3, v2.2, v2.1, v2, v1.1, v1
       pvList.sort((a, b) => {
         const pa = a.replace("v", "").split(".").map(Number)
         const pb = b.replace("v", "").split(".").map(Number)
@@ -82,7 +79,7 @@ export default function Download() {
     load()
   }, [])
 
-  // Filtering + stagger fix + scroll reset
+  // Filtering + stagger fix
   useEffect(() => {
     let out = versions
 
@@ -115,9 +112,6 @@ export default function Download() {
     }
 
     setFiltered(out)
-
-    // Scroll to top when filters/search change
-    window.scrollTo(0, 0)
 
     requestAnimationFrame(() => {
       document.dispatchEvent(new Event("ifamished-ui-reveal"))
@@ -181,19 +175,23 @@ export default function Download() {
               >
                 <div className="download-card-top">
 
+                  {/* Badge */}
                   <div className={`version-badge version-badge--${v.version_type}`}>
                     <span className="version-badge-dot" />
                     {channelLabel}
                   </div>
 
+                  {/* MC Version */}
                   <span className="download-mc-label">
                     Minecraft {v.game_versions[0]}
                   </span>
 
+                  {/* Pack Version */}
                   <span className="download-version">
                     {getPackVersion(v.version_number)}
                   </span>
 
+                  {/* Description */}
                   <p className="download-desc">
                     OptiFine for Fabric<br />
                     {getPackVersion(v.version_number)} • {v.game_versions[0]} • {channelLabel}
