@@ -78,13 +78,6 @@ export default function Help() {
           </GlassButton>
         </div>
       </div>
-
-      {/* Support Section */}
-      <section className="section fade-in-up" style={{ marginTop: "var(--space-6)" }}>
-        <h2>Live Support</h2>
-        <p>The support chat widget will appear in the bottom-right corner.</p>
-        <p>If it doesn’t appear, make sure scripts are allowed in your browser.</p>
-      </section>
     </div>
   )
 }
