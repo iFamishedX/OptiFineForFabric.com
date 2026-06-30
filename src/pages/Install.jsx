@@ -172,7 +172,7 @@ export default function Install() {
             <Icon name="discord" size={16} />
             Join Discord
           </GlassButton>
-          <GlassButton to="/faq" variant="ghost">
+          <GlassButton to="/help" variant="ghost">
             FAQ
           </GlassButton>
         </div>

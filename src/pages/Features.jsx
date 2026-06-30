@@ -139,7 +139,7 @@ export default function Features() {
             <Icon name="download" size={16} />
             Download
           </GlassButton>
-          <GlassButton to="/faq" variant="ghost">FAQ</GlassButton>
+          <GlassButton to="/help" variant="ghost">Help</GlassButton>
         </div>
       </div>
     </div>

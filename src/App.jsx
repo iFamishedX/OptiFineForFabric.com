@@ -6,14 +6,14 @@ import Download from "./pages/Download"
 import DownloadVersion from "./pages/download/DownloadVersion"
 import Features from "./pages/Features"
 import Install from "./pages/Install"
-import FAQ from "./pages/FAQ"
+import Help from "./pages/Help"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
   { to: "/download", label: "Download" },
   { to: "/features", label: "Features" },
   { to: "/install", label: "Install" },
-  { to: "/faq", label: "FAQ" },
+  { to: "/help", label: "Help" },
 ]
 
 const socials = [
@@ -41,7 +41,7 @@ export default function App() {
           <Route path="/download" element={<Download />} />
           <Route path="/download/:version" element={<DownloadVersion />} />
           <Route path="/features" element={<Features />} />
-          <Route path="/faq" element={<FAQ />} />
+          <Route path="/help" element={<Help />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

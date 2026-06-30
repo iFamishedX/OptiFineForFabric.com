@@ -1,4 +1,5 @@
 import { GlassButton, usePageTitle, Icon, FaqAccordion } from "ifamished-ui"
+import { useEffect } from "react"
 
 const faqs = [
   {
@@ -31,8 +32,22 @@ const faqs = [
   },
 ]
 
-export default function FAQ() {
-  usePageTitle("OptiFine for Fabric | FAQ")
+export default function Help() {
+  usePageTitle("OptiFine for Fabric | Help")
+
+  // Inject Tawk.to widget safely
+  useEffect(() => {
+    const s1 = document.createElement("script")
+    s1.async = true
+    s1.src = "https://embed.tawk.to/6913ebffc3f840195fe58a21/1j9qt3o0u"
+    s1.charset = "UTF-8"
+    s1.setAttribute("crossorigin", "*")
+    document.body.appendChild(s1)
+
+    return () => {
+      document.body.removeChild(s1)
+    }
+  }, [])
 
   return (
     <div className="page">
@@ -63,6 +78,13 @@ export default function FAQ() {
           </GlassButton>
         </div>
       </div>
+
+      {/* Support Section */}
+      <section className="section fade-in-up" style={{ marginTop: "var(--space-6)" }}>
+        <h2>Live Support</h2>
+        <p>The support chat widget will appear in the bottom-right corner.</p>
+        <p>If it doesn’t appear, make sure scripts are allowed in your browser.</p>
+      </section>
     </div>
   )
 }
