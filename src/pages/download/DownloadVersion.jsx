@@ -24,6 +24,36 @@ export default function DownloadVersion() {
     load()
   }, [decodedVersion])
 
+  // -----------------------------
+  // Deep-link detection logic
+  // -----------------------------
+  function tryOpenModrinth(versionId) {
+    const deepLink = `modrinth://version/${versionId}`
+    const fallbackUrl = `https://modrinth.com/version/${versionId}`
+
+    let appOpened = false
+
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") {
+        appOpened = true
+      }
+    }
+
+    document.addEventListener("visibilitychange", onVisibility)
+
+    const start = Date.now()
+    window.location.href = deepLink
+
+    setTimeout(() => {
+      document.removeEventListener("visibilitychange", onVisibility)
+
+      // If the browser never lost focus → app didn't open
+      if (!appOpened) {
+        window.location.href = fallbackUrl
+      }
+    }, 800)
+  }
+
   if (!data) {
     return (
       <div className="page version-page fade-in-up">
@@ -58,7 +88,7 @@ export default function DownloadVersion() {
       <div className="version-actions">
         <GlassButton
           variant="primary"
-          href={`modrinth://version/${data.id}`}
+          onClick={() => tryOpenModrinth(data.id)}
         >
           <Icon name="modrinth" size={16} />
           Open in Modrinth App
