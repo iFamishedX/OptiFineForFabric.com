@@ -106,15 +106,36 @@ export default function DownloadVersion() {
       </div>
 
       {error && (
-        <div className="error-box fade-in-up" style={{
-          marginTop: "var(--space-4)",
-          padding: "var(--space-4)",
-          borderRadius: "12px",
-          background: "rgba(255, 65, 65, 0.12)",
-          border: "1px solid rgba(255, 65, 65, 0.4)",
-          color: "var(--text-primary)"
-        }}>
-          <strong>Error:</strong> {error}
+        <div
+          className="version-error fade-in-up"
+          style={{
+            marginTop: "var(--space-5)",
+            marginBottom: "var(--space-5)",
+            padding: "var(--space-4)",
+            borderRadius: "12px",
+            background: "rgba(255, 65, 65, 0.12)",
+            border: "1px solid rgba(255, 65, 65, 0.4)",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "var(--space-3)",
+          }}
+        >
+          <Icon
+            name="error"
+            size={20}
+            style={{
+              color: "rgb(255, 90, 90)",
+              flexShrink: 0,
+              marginTop: "2px",
+            }}
+          />
+
+          <div style={{ color: "var(--text-primary)", lineHeight: 1.55 }}>
+            <strong style={{ display: "block", marginBottom: "4px" }}>
+              Error
+            </strong>
+            {error}
+          </div>
         </div>
       )}
 
