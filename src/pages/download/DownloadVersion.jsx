@@ -8,8 +8,18 @@ export default function DownloadVersion() {
   const decodedVersion = decodeURIComponent(version)
 
   const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
 
-  const Spacer = <div style={{display: "block", height: 0, overflow: "hidden", borderTop: "0.0000001vh solid transparent"}} />
+  const Spacer = (
+    <div
+      style={{
+        display: "block",
+        height: 0,
+        overflow: "hidden",
+        borderTop: "0.0000001vh solid transparent",
+      }}
+    />
+  )
 
   usePageTitle(`Download ${decodedVersion}`)
 
@@ -24,13 +34,10 @@ export default function DownloadVersion() {
     load()
   }, [decodedVersion])
 
-  // -----------------------------
-  // Deep-link detection logic
-  // -----------------------------
-  function tryOpenModrinth(versionId) {
-    const deepLink = `modrinth://version/${versionId}`
-    const fallbackUrl = `https://modrinth.com/version/${versionId}`
-
+  // -------------------------------------------------------
+  // Deep-link detection with CUSTOM ERROR MESSAGE
+  // -------------------------------------------------------
+  function openModrinth(versionId) {
     let appOpened = false
 
     const onVisibility = () => {
@@ -41,15 +48,15 @@ export default function DownloadVersion() {
 
     document.addEventListener("visibilitychange", onVisibility)
 
-    const start = Date.now()
-    window.location.href = deepLink
+    // Attempt to open Modrinth App
+    window.location.href = `modrinth://version/${versionId}`
 
+    // After 800ms, if still visible → failed
     setTimeout(() => {
       document.removeEventListener("visibilitychange", onVisibility)
 
-      // If the browser never lost focus → app didn't open
       if (!appOpened) {
-        window.location.href = fallbackUrl
+        setError("The Modrinth App could not be opened. It may not be installed on this device.")
       }
     }, 800)
   }
@@ -76,9 +83,7 @@ export default function DownloadVersion() {
     <div className="page version-page fade-in-up">
       {Spacer}
 
-      <h1 className="version-title">
-        OptiFine for Fabric {packVersion}
-      </h1>
+      <h1 className="version-title">OptiFine for Fabric {packVersion}</h1>
 
       <div className="tech-tag-list">
         <span className="tech-tag">Minecraft {mc}</span>
@@ -86,10 +91,7 @@ export default function DownloadVersion() {
       </div>
 
       <div className="version-actions">
-        <GlassButton
-          variant="primary"
-          onClick={() => tryOpenModrinth(data.id)}
-        >
+        <GlassButton variant="primary" onClick={() => openModrinth(data.id)}>
           <Icon name="modrinth" size={16} />
           Open in Modrinth App
         </GlassButton>
@@ -102,6 +104,19 @@ export default function DownloadVersion() {
           Direct Download
         </GlassButton>
       </div>
+
+      {error && (
+        <div className="error-box fade-in-up" style={{
+          marginTop: "var(--space-4)",
+          padding: "var(--space-4)",
+          borderRadius: "12px",
+          background: "rgba(255, 65, 65, 0.12)",
+          border: "1px solid rgba(255, 65, 65, 0.4)",
+          color: "var(--text-primary)"
+        }}>
+          <strong>Error:</strong> {error}
+        </div>
+      )}
 
       <section className="version-changelog">
         <h2>Changelog</h2>
