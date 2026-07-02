@@ -35,7 +35,7 @@ export default function DownloadVersion() {
   }, [decodedVersion])
 
   // -------------------------------------------------------
-  // Deep-link detection
+  // Deep-link detectio n
   // -------------------------------------------------------
   function openModrinth(versionId) {
     let appOpened = false
