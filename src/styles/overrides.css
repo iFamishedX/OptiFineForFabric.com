@@ -43,7 +43,7 @@
   margin-top: 2px;
 }
 
-.compare-list-icon--yes { color: var(--neon-cyan); }
+.compare-list-icon--yes { color: var(--accent-1); }
 .compare-list-icon--no  { color: var(--text-muted); opacity: 0.55; }
 
 /* Downloads */
@@ -136,7 +136,7 @@
   width: 2px;
   background: linear-gradient(
     to bottom,
-    var(--neon-cyan),
+    var(--accent-1),
     rgba(34, 211, 238, 0.15)
   );
   z-index: 0;
@@ -156,15 +156,15 @@
   height: 48px;
   border-radius: 50%;
   background: var(--glass-bg);
-  border: 2px solid var(--neon-cyan);
+  border: 2px solid var(--accent-1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--mono);
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--neon-cyan);
-  box-shadow: 0 0 20px var(--neon-glow), 0 0 0 4px rgba(34,211,238,0.07);
+  color: var(--accent-1);
+  box-shadow: 0 0 20px var(--accent-glow-1), 0 0 0 4px rgba(34,211,238,0.07);
   flex-shrink: 0;
   backdrop-filter: blur(8px);
 }
@@ -185,7 +185,7 @@
 }
 
 .install-step-body a {
-  color: var(--neon-cyan);
+  color: var(--accent-1);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: rgba(34,211,238,0.4);
@@ -193,7 +193,7 @@
 }
 
 .install-step-body a:hover {
-  text-decoration-color: var(--neon-cyan);
+  text-decoration-color: var(--accent-1);
 }
 
 .code-inline {
@@ -203,7 +203,7 @@
   border: 1px solid var(--glass-border);
   padding: 2px 8px;
   border-radius: 6px;
-  color: var(--neon-cyan);
+  color: var(--accent-1);
   white-space: nowrap;
 }
 
@@ -223,7 +223,7 @@
 
 .trouble-icon {
   flex-shrink: 0;
-  color: var(--neon-cyan);
+  color: var(--accent-1);
   margin-top: 2px;
   opacity: 0.8;
 }
@@ -254,7 +254,7 @@
   line-height: 1;
 }
 
-.version-badge--latest   { background: rgba(34,211,238,0.12);  border-color: rgba(34,211,238,0.4);  color: var(--neon-cyan); }
+.version-badge--latest   { background: rgba(34,211,238,0.12);  border-color: rgba(34,211,238,0.4);  color: var(--accent-1); }
 .version-badge--stable   { background: rgba(74,222,128,0.1);   border-color: rgba(74,222,128,0.35); color: #4ade80; }
 .version-badge--previous { background: rgba(250,204,21,0.1);   border-color: rgba(250,204,21,0.3);  color: #facc15; }
 .version-badge--legacy   { background: rgba(148,163,184,0.08); border-color: rgba(148,163,184,0.2); color: var(--text-muted); }
