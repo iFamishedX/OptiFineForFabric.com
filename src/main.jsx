@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 
 // Shared UI package styles
 import "ifamished-ui/styles/index.css"
-import "ifamished-ui/styles/themes/premium/plasma.css"
+import "ifamished-ui/styles/themes/premium/galaxy.css"
 // Dream
 
 // Site-specific styles
