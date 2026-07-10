@@ -166,7 +166,7 @@ export default function Install() {
         <p>Ask in the Discord server or browse the FAQ for more answers.</p>
         <div className="cta-actions">
           <GlassButton
-            href="https://discord.com/users/iFamished"
+            href="https://discord.gg/aNUYADauTJ"
             variant="primary"
           >
             <Icon name="discord" size={16} />

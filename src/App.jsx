@@ -19,7 +19,7 @@ const navItems = [
 const socials = [
   { label: "GitHub", href: "https://github.com/iFamishedX/optifine-for-fabric" },
   { label: "Modrinth", href: "https://modrinth.com/project/optifine-for-fabric" },
-  { label: "Discord", href: "https://discord.com/users/iFamished" },
+  { label: "Discord", href: "https://discord.gg/aNUYADauTJ" },
 ]
 
 export default function App() {

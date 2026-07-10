@@ -68,7 +68,7 @@ export default function Help() {
         <h2>Still have questions?</h2>
         <p>Join the Discord or browse the GitHub repository for more detailed information.</p>
         <div className="cta-actions">
-          <GlassButton href="https://discord.com/users/iFamished" variant="primary">
+          <GlassButton href="https://discord.gg/aNUYADauTJ" variant="primary">
             <Icon name="discord" size={16} />
             Discord
           </GlassButton>
